@@ -1,0 +1,49 @@
+[project]
+name = "policygate-rag"
+version = "0.0.1"
+description = "How much of banking_knowledge task failure is a retrieval problem: a retrieval study on tau2-bench under the policygate harness"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    # The harness, pinned to a tag. It is a dependency, never a workspace:
+    # changes to it are made in the PolicyGate repo, tagged, and re-pinned here.
+    "policygate",
+    # tau2 pulls in litellm, tenacity, fastapi, loguru, deepdiff, pandas,
+    # pytest-xdist and plotly. Do not re-declare those here.
+    "tau2[knowledge,experiments]",
+    "langgraph>=0.2",
+    "langgraph-checkpoint-sqlite>=2.0",
+    "numpy>=1.26",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.6",
+]
+
+[tool.uv.sources]
+# A local git URL until PolicyGate has a remote; switch to the remote URL with
+# the same tag when it does. Not a path source: a path would track the working
+# tree, so results would move whenever PolicyGate did.
+policygate = { git = "file:///Users/a1234809/Code/PolicyGate", tag = "v0.2.0" }
+# Same commit as PolicyGate's pin; see third_party/PIN.md.
+tau2 = { path = "third_party/tau2-bench", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/policygate_rag"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Env / secrets
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# Runs: checkpoints and traces stay local; the ledger is committed.
+runs/*
+!runs/ledger.json
+!runs/.gitkeep
+
+# Vendored benchmark (pinned separately, see third_party/PIN.md)
+third_party/tau2-bench/
