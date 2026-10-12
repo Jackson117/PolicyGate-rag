@@ -36,6 +36,9 @@ LABEL_FIELDS = (
     "env_assertions",
 )
 TASK_FILES = ("tasks.json", "tasks_voice.json")
+TASK_LOADERS = ("get_tasks", "KNOWLEDGE_TASK_SET_PATH", "get_tasks_loader")
+"""Names that load task objects, and with them the labels. tau2 loads tasks itself
+when it runs; nothing of ours outside eval/ needs to."""
 
 
 def violations(source: str, *, path: str = "<string>") -> list[str]:
@@ -69,6 +72,8 @@ def violations(source: str, *, path: str = "<string>") -> list[str]:
         for field in LABEL_FIELDS:
             if field in tok.string:
                 found.append(f"{path}:{tok.start[0]}: names label field {field!r}")
+        if tok.type == tokenize.NAME and tok.string in TASK_LOADERS:
+            found.append(f"{path}:{tok.start[0]}: names task loader {tok.string!r}")
         if tok.type != tokenize.NAME:
             for name in TASK_FILES:
                 if name in tok.string:
@@ -113,6 +118,8 @@ def test_no_module_outside_eval_reaches_labels():
         "key = f'{prefix}required_documents'\n",
         "crit = task.evaluation_criteria\n",
         "path = DATA / 'tasks.json'\n",
+        "from tau2.domains.banking_knowledge.environment import get_tasks\n",
+        "tasks = registry.get_tasks_loader('banking_knowledge')()\n",
     ],
 )
 def test_the_scanner_flags_planted_violations(source):

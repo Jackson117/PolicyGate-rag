@@ -1,0 +1,108 @@
+{
+  "seed": 20261011,
+  "per_stratum": 10,
+  "tau2_commit": "a2c024725189473d2d7cea3a5cfdbcc67478e41f",
+  "population": 87,
+  "strata": [
+    {
+      "name": "few",
+      "n_required_min": 1,
+      "n_required_max": 7,
+      "population": 29,
+      "task_ids": [
+        "task_017",
+        "task_019",
+        "task_023",
+        "task_024",
+        "task_036",
+        "task_038",
+        "task_040",
+        "task_043",
+        "task_051",
+        "task_052"
+      ]
+    },
+    {
+      "name": "middle",
+      "n_required_min": 7,
+      "n_required_max": 12,
+      "population": 29,
+      "task_ids": [
+        "task_025",
+        "task_028",
+        "task_047",
+        "task_055",
+        "task_056",
+        "task_078",
+        "task_079",
+        "task_082",
+        "task_084",
+        "task_085"
+      ]
+    },
+    {
+      "name": "many",
+      "n_required_min": 12,
+      "n_required_max": 30,
+      "population": 29,
+      "task_ids": [
+        "task_022",
+        "task_064",
+        "task_065",
+        "task_071",
+        "task_074",
+        "task_076",
+        "task_081",
+        "task_088",
+        "task_090",
+        "task_097"
+      ]
+    }
+  ],
+  "action_task_ids": [
+    "task_004",
+    "task_008",
+    "task_012",
+    "task_014",
+    "task_032",
+    "task_033",
+    "task_034",
+    "task_035",
+    "task_083"
+  ],
+  "judged_task_ids": [
+    "task_102"
+  ],
+  "task_ids": [
+    "task_017",
+    "task_019",
+    "task_023",
+    "task_024",
+    "task_036",
+    "task_038",
+    "task_040",
+    "task_043",
+    "task_051",
+    "task_052",
+    "task_025",
+    "task_028",
+    "task_047",
+    "task_055",
+    "task_056",
+    "task_078",
+    "task_079",
+    "task_082",
+    "task_084",
+    "task_085",
+    "task_022",
+    "task_064",
+    "task_065",
+    "task_071",
+    "task_074",
+    "task_076",
+    "task_081",
+    "task_088",
+    "task_090",
+    "task_097"
+  ]
+}
