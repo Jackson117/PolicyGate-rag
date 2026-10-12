@@ -1,0 +1,109 @@
+{
+ "total_usd": 33.8,
+ "allocations": {
+  "reserve": 3.8,
+  "development": 3.0,
+  "calibration": 1.0,
+  "stage1": 1.0,
+  "stage2": 25.0
+ },
+ "spent": {
+  "reserve": 0,
+  "development": 0,
+  "calibration": 0.355222,
+  "stage1": 0,
+  "stage2": 0
+ },
+ "entries": [
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.0080256,
+   "label": "A0/task_017/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A0",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:03:55.769165+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.0036144,
+   "label": "A0/task_025/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A0",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:04:14.503566+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.011462799999999999,
+   "label": "A0/task_022/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A0",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:04:47.089809+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.012653199999999998,
+   "label": "A1/task_017/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A1",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:05:31.582061+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.013086799999999999,
+   "label": "A1/task_025/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A1",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:06:06.296217+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.26855000000000007,
+   "label": "A1/task_022/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A1",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:13:48.416199+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.012184400000000001,
+   "label": "A4/task_017/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A4",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:14:31.082325+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.0045048,
+   "label": "A4/task_025/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A4",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:14:44.877121+00:00"
+  },
+  {
+   "line": "calibration",
+   "kind": "episode",
+   "usd": 0.02114,
+   "label": "A4/task_022/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A4",
+   "batch": "2762983f5e",
+   "at": "2026-10-12T03:15:31.499708+00:00"
+  }
+ ]
+}
