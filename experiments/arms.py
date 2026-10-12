@@ -13,14 +13,14 @@ from policygate.harness.config import HarnessConfig
 from policygate_rag.config import RagConfig, RetrievalMode
 
 HARNESS = HarnessConfig(name="banking_grounded", gating_enabled=True, audit_enabled=True)
-"""PENDING DECISION -- see the open question in CLAUDE.md, "Harness configuration".
+"""Decided 2026-10-12: only the mechanisms banking's policy text grounds.
 
-Proposed: only the mechanisms banking's policy text grounds. Gating enforces
-"verify before accessing customer information" (via banking.py's roles and
-facts); audit observes without changing behaviour. Left off, because banking
-states no such rule or the harness has nothing banking-specific to check:
-parallel-call blocking (a retail rule), validation (no banking constraints are
-written), context pruning, and the approval gate.
+Gating enforces "verify before accessing customer information" (through
+banking.py's roles and facts); audit observes without changing behaviour. Off,
+because banking states no such rule or the harness has nothing banking-specific
+to check: parallel-call blocking (a retail rule), validation (no banking
+constraints), context pruning, and the approval gate. This differs from
+policygate's ``HarnessConfig.full()``; the README must say so.
 """
 
 
