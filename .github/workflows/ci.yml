@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  boundaries:
+    # Hard constraints 3 (only eval/ sees labels) and 7 (eval/, index/, judges/
+    # import no framework or LLM client), both enforced by static scan. The scans
+    # read source files, so this job installs nothing but pytest and ruff: it
+    # cannot pass by accident because some import happened to resolve.
+    #
+    # A full-suite job (pinned tau2 clone + `uv sync` + `uv run pytest`, as in
+    # PolicyGate's CI) is added once policygate is reachable from a runner:
+    # pyproject.toml points at a local file:// git URL until PolicyGate has a
+    # remote.
+    name: boundaries (py${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ["3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv python install ${{ matrix.python }}
+      - name: Install the test tools only
+        # Not `uv sync`: that would resolve policygate and tau2, which this job
+        # deliberately does without.
+        run: |
+          uv venv --python ${{ matrix.python }}
+          uv pip install pytest ruff
+      - run: .venv/bin/python -m ruff check src tests
+      - name: Label isolation and import boundaries
+        run: .venv/bin/python -m pytest tests/test_label_isolation.py tests/test_import_boundaries.py -q
