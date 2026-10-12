@@ -102,6 +102,7 @@ def run_config(arm, agent_name: str, task_ids, *, trials: int, seed: int, save_t
         llm_user=c.user_llm,
         llm_args_user={"temperature": c.user_temperature},
         num_trials=trials,
+        max_steps=c.max_steps,
         seed=seed,
         max_concurrency=max_concurrency,
         retrieval_config=arm.env_variant,

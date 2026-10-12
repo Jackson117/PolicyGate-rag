@@ -87,6 +87,11 @@ class RagConfig(BaseModel):
     """Which policygate mechanisms are active. Identical across the arms of a
     comparison; ``experiments/arms.py`` holds the one this study uses."""
 
+    max_steps: int = Field(default=100, ge=1)
+    """tau2's step cap per episode. 100, decided 2026-10-12 after calibration: a
+    looping episode's cost grows roughly quadratically with its length, and 100 is
+    policygate's setting. tau2's own default is 200."""
+
     max_internal_attempts: int = Field(default=3, ge=1)
     """Proposals the harness may refuse within one turn before escalating."""
 
