@@ -142,6 +142,11 @@ class RagAgent(HalfDuplexAgent[RagAgentState]):
                         final.update(update)
 
         emitted = AssistantMessage.model_validate(final["emitted"])
+        if self.recorder is not None:
+            # The runner sums these to catch spend on attempts tau2 discards.
+            self.recorder.write(self.thread_id, state.turn, {
+                "type": "turn_cost", "ns": (), "data": {"usd": emitted.cost or 0.0},
+            })
         state.messages.extend(MESSAGES.validate_python(final["scratch"]))
         if final["outcome"] == "escalated":
             state.messages.append(emitted)
