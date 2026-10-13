@@ -12,7 +12,7 @@
   "development": 0,
   "calibration": 0.355222,
   "stage1": 0,
-  "stage2": 5.926905
+  "stage2": 5.934778
  },
  "entries": [
   {
@@ -1904,6 +1904,16 @@
    "arm": "A4",
    "batch": "da564482ca",
    "at": "2026-10-12T04:51:00.103245+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "reconciliation",
+   "usd": 0.007873,
+   "label": "dashboard 6.2900 vs ledger 6.2821: provider dashboard 2026-10-12 (gpt-4.1-mini only; shown to the cent)",
+   "model": null,
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-13T04:00:42.936270+00:00"
   }
  ]
 }
