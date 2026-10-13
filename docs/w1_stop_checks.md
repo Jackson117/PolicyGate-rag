@@ -1,5 +1,10 @@
 # W1 stop checks: floor and ceiling (2026-10-12)
 
+> **Superseded as a comparison baseline (2026-10-13).** These runs had no loop guard.
+> From policygate 0.3.0 every arm runs with it, so A0 and A4 must be re-run under the
+> same harness before they are compared with any other arm. The numbers below remain
+> the record of what was observed, and the reason the guard exists.
+
 Run: `runs/w1_floor_ceiling` (not committed; ledger committed). A0 (`no_knowledge`) and
 A4 (`golden_retrieval`), the 30-task subset x 3 trials, gpt-4.1-mini for agent and user
 simulator, temperature 0, harness = gating + audit, `max_steps` 100, seed 300.

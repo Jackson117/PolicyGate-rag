@@ -12,15 +12,23 @@ from policygate.harness.config import HarnessConfig
 
 from policygate_rag.config import RagConfig, RetrievalMode
 
-HARNESS = HarnessConfig(name="banking_grounded", gating_enabled=True, audit_enabled=True)
-"""Decided 2026-10-12: only the mechanisms banking's policy text grounds.
+HARNESS = HarnessConfig(
+    name="banking_grounded",
+    gating_enabled=True,
+    audit_enabled=True,
+    loop_guards_enabled=True,
+)
+"""Decided 2026-10-12, loop guard added 2026-10-13.
 
 Gating enforces "verify before accessing customer information" (through
-banking.py's roles and facts); audit observes without changing behaviour. Off,
-because banking states no such rule or the harness has nothing banking-specific
-to check: parallel-call blocking (a retail rule), validation (no banking
-constraints), context pruning, and the approval gate. This differs from
-policygate's ``HarnessConfig.full()``; the README must say so.
+banking.py's roles and facts); audit observes without changing behaviour. The
+loop guard (policygate 0.3.0, max_repeated_actions=3) refuses a fourth
+consecutive identical call: W1 found 34 of 90 golden-retrieval episodes stuck
+repeating one read call until the step cap, none successful, 60% of the arm's
+cost. Off, because banking states no such rule or the harness has nothing
+banking-specific to check: parallel-call blocking (a retail rule), validation
+(no banking constraints), context pruning, and the approval gate. This differs
+from policygate's ``HarnessConfig.full()``; the README must say so.
 """
 
 

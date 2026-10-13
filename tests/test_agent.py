@@ -164,3 +164,20 @@ def test_retrieval_modes_not_yet_built_fail_loudly():
     _, agent, state = make(Scripted(say("x")), config=config)
     with pytest.raises(NotImplementedError):
         agent.generate_next_message(hello(), state)
+
+
+class TestLoopGuard:
+    def test_a_repeated_read_is_refused_and_persistence_escalates(self):
+        config = RagConfig(name="A0", harness=HARNESS.model_copy(
+            update={"loop_guards_enabled": True}))
+        same = [use("get_current_time", f"t{i}") for i in range(7)]
+        env, agent, state = make(Scripted(*same), config=config)
+        out, state = agent.generate_next_message(hello(), state)
+        for _ in range(2):  # the second and third identical calls go through
+            out, state = agent.generate_next_message(env.get_response(out.tool_calls[0]), state)
+            assert out.tool_calls[0].name == "get_current_time"
+        # The fourth is refused; the model repeats it until the attempts run out.
+        out, state = agent.generate_next_message(env.get_response(out.tool_calls[0]), state)
+        assert out.tool_calls[0].name == "transfer_to_human_agents"
+        rules = [r.decision.rule for r in state.session.chain.records if r.decision]
+        assert rules.count("loop_guard.repeated_action") == 3

@@ -26,7 +26,7 @@ dev = [
 # A local git URL until PolicyGate has a remote; switch to the remote URL with
 # the same tag when it does. Not a path source: a path would track the working
 # tree, so results would move whenever PolicyGate did.
-policygate = { git = "file:///Users/a1234809/Code/PolicyGate", tag = "v0.2.0" }
+policygate = { git = "file:///Users/a1234809/Code/PolicyGate", tag = "v0.3.0" }
 # Same commit as PolicyGate's pin; see third_party/PIN.md.
 tau2 = { path = "third_party/tau2-bench", editable = true }
 
