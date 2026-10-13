@@ -102,6 +102,12 @@ class RagConfig(BaseModel):
     """Dense embedder. tau2's default OpenAI embedder, so a difference between our
     pipeline and tau2's dense variant is not an embedder difference."""
 
+    bm25_k1: float = Field(default=1.5, gt=0)
+    """BM25 term-frequency saturation. 1.5 as in rank_bm25, which tau2's bm25 uses."""
+
+    bm25_b: float = Field(default=0.75, ge=0, le=1)
+    """BM25 length normalisation. 0.75 as in rank_bm25."""
+
     k_bm25: int = Field(default=20, ge=1)
     """Candidates taken from BM25 before fusion."""
 
