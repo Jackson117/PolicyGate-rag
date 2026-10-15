@@ -9,7 +9,7 @@
  },
  "spent": {
   "reserve": 0,
-  "development": 3.9e-05,
+  "development": 0.069724,
   "calibration": 0.355222,
   "stage1": 0.023393,
   "stage2": 5.934778
@@ -1934,6 +1934,46 @@
    "arm": null,
    "batch": null,
    "at": "2026-10-15T04:37:27.650248+00:00"
+  },
+  {
+   "line": "development",
+   "kind": "episode",
+   "usd": 0.022310180000000002,
+   "label": "A2/task_017/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A2",
+   "batch": "8448a77821",
+   "at": "2026-10-15T05:22:05.269177+00:00"
+  },
+  {
+   "line": "development",
+   "kind": "episode",
+   "usd": 0.01045951,
+   "label": "A2/task_025/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A2",
+   "batch": "8448a77821",
+   "at": "2026-10-15T05:22:32.777011+00:00"
+  },
+  {
+   "line": "development",
+   "kind": "episode",
+   "usd": 0.03645146,
+   "label": "A2/task_022/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A2",
+   "batch": "8448a77821",
+   "at": "2026-10-15T05:23:23.998482+00:00"
+  },
+  {
+   "line": "development",
+   "kind": "call",
+   "usd": 0.0004641,
+   "label": "A2 smoke analysis: query policy comparison",
+   "model": "text-embedding-3-large",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-15T05:24:03.715941+00:00"
   }
  ]
 }
