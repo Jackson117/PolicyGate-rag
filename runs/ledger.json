@@ -9,9 +9,9 @@
  },
  "spent": {
   "reserve": 0,
-  "development": 0,
+  "development": 3.9e-05,
   "calibration": 0.355222,
-  "stage1": 0,
+  "stage1": 0.023393,
   "stage2": 5.934778
  },
  "entries": [
@@ -1914,6 +1914,26 @@
    "arm": null,
    "batch": null,
    "at": "2026-10-13T04:00:42.936270+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.023392589999999998,
+   "label": "embed 698 KB documents (179943 tokens)",
+   "model": "text-embedding-3-large",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-15T04:37:11.242598+00:00"
+  },
+  {
+   "line": "development",
+   "kind": "call",
+   "usd": 3.9e-05,
+   "label": "dense sanity check: 30 title queries",
+   "model": "text-embedding-3-large",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-15T04:37:27.650248+00:00"
   }
  ]
 }
