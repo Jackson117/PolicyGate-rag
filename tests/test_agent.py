@@ -159,11 +159,17 @@ class TestPersistence:
         assert {"retrieve", "reason", "gate"} <= {k for r in rows for k in r["data"]}
 
 
-def test_retrieval_modes_not_yet_built_fail_loudly():
+def test_a_retrieval_arm_without_resources_is_refused():
     config = RagConfig(name="A2", harness=HARNESS, retrieval=RetrievalMode.NAIVE)
-    _, agent, state = make(Scripted(say("x")), config=config)
+    with pytest.raises(ValueError, match="needs RetrievalResources"):
+        make(Scripted(say("x")), config=config)
+
+
+def test_agentic_retrieval_is_not_built_yet():
+    from policygate_rag.graph.build import build_graph
+
     with pytest.raises(NotImplementedError):
-        agent.generate_next_message(hello(), state)
+        build_graph(RagConfig(name="A3", harness=HARNESS, retrieval=RetrievalMode.AGENTIC))
 
 
 class TestLoopGuard:

@@ -56,7 +56,25 @@ def select_tasks(which: str) -> list[str]:
     return which.split(",")
 
 
-def register(arm, out_dir: Path, run_id: str, generate=None):
+def retrieval_resources(config, embedder=None):
+    """Index, documents and embedder for an arm that retrieves. Loads the cached
+    embeddings; refuses to build them here, because building spends money."""
+    from policygate_rag.config import RetrievalMode
+    from policygate_rag.index.corpus import load_corpus
+    from policygate_rag.retrieval.build_index import DOCS_DIR, load_or_build
+    from policygate_rag.retrieval.embedder import LiteLLMEmbedder
+    from policygate_rag.retrieval.naive import RetrievalResources
+
+    if config.retrieval is RetrievalMode.NONE:
+        return None
+    return RetrievalResources(
+        index=load_or_build(config),
+        docs={d.doc_id: d for d in load_corpus(DOCS_DIR)},
+        embedder=embedder or LiteLLMEmbedder(config.embedding_model),
+    )
+
+
+def register(arm, out_dir: Path, run_id: str, generate=None, embedder=None):
     """Register a tau2 agent factory for ``arm`` and return its name."""
     from langgraph.checkpoint.sqlite import SqliteSaver
     from tau2.domains.banking_knowledge.environment import get_environment
@@ -73,13 +91,14 @@ def register(arm, out_dir: Path, run_id: str, generate=None):
     )
     recorder = TraceRecorder(out_dir / arm.id / "trace.jsonl")
     extra = {} if generate is None else {"generate": generate}
+    resources = retrieval_resources(arm.config, embedder)
 
     def factory(tools, domain_policy, llm=None, llm_args=None, task=None, **_ignored):
         # Only the id survives: the Task object carries labels (hard constraint 3).
         return RagAgent(
             tools=tools, domain_policy=domain_policy, config=arm.config, toolkit=toolkit,
             task_id=getattr(task, "id", "unknown"), checkpointer=saver, recorder=recorder,
-            **extra,
+            retrieval=resources, **extra,
         )
 
     if registry.get_agent_factory(name) is None:
@@ -121,7 +140,7 @@ def traced_agent_cost(trace: Path, thread_prefix: str) -> float:
     return total
 
 
-def run(args, *, generate=None) -> int:
+def run(args, *, generate=None, embedder=None) -> int:
     from tau2.runner import run_domain
 
     out_dir = (ROOT / args.out).resolve()
@@ -158,7 +177,7 @@ def run(args, *, generate=None) -> int:
     out_dir.mkdir(parents=True)
     (out_dir / "plan.json").write_text(json.dumps(plan, indent=2))
     for arm in arms:
-        agent_name = register(arm, out_dir, run_id, generate)
+        agent_name = register(arm, out_dir, run_id, generate, embedder)
         chunks = [tasks[i:i + args.chunk_size] for i in range(0, len(tasks), args.chunk_size)]
         booked_agent = 0.0
 

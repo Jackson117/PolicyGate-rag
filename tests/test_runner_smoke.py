@@ -66,3 +66,39 @@ def test_an_existing_output_directory_is_refused(tmp_path):
         max_concurrency=1, ledger=tmp_path / "ledger.json", dry_run=False,
     )
     assert runner.run(args, generate=scripted_agent) == 2
+
+
+class FakeQueryEmbedder:
+    """Deterministic 3072-dim vectors, matching the cached index; costs 0.00001."""
+
+    model = "text-embedding-3-large"
+
+    def embed(self, texts):
+        import numpy as np
+
+        from policygate_rag.retrieval.embedder import Embedding
+
+        rng = np.random.default_rng(len(texts))
+        return Embedding(vectors=rng.normal(size=(len(texts), 3072)).tolist(),
+                         tokens=len(texts), usd=0.00001)
+
+
+def test_the_naive_arm_runs_end_to_end_on_the_cached_index(tmp_path, scripted_user):
+    from policygate_rag.retrieval.build_index import cache_path
+
+    if not cache_path("text-embedding-3-large").with_suffix(".json").exists():
+        pytest.skip("no embedding cache here (it is built once, locally, at a cost)")
+    args = runner.argparse.Namespace(
+        out=str(tmp_path / "run"), line="development", arms=["A2"], tasks="calibration",
+        trials=1, seed=300, model="openai/gpt-4.1-mini", prior=0.01, chunk_size=3,
+        max_concurrency=1, ledger=tmp_path / "ledger.json", dry_run=False,
+    )
+    assert runner.run(args, generate=scripted_agent, embedder=FakeQueryEmbedder()) == 0
+    episodes = [e for e in Ledger.load(tmp_path / "ledger.json").entries
+                if e.kind.value == "episode"]
+    assert len(episodes) == 3
+    rows = [json.loads(r) for r in (tmp_path / "run" / "A2" / "trace.jsonl").read_text()
+            .splitlines()]
+    kept = [r["data"]["retrieve"]["retrieval"].get("kept") for r in rows
+            if r["type"] == "updates" and not r["ns"] and "retrieve" in r["data"]]
+    assert kept and all(len(k) == 5 for k in kept if k)  # k_final documents every user turn

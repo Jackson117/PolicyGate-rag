@@ -29,6 +29,7 @@ from tau2.data_model.message import AssistantMessage, SystemMessage, ToolCall, T
 
 from policygate_rag.config import RagConfig, RetrievalMode
 from policygate_rag.graph.state import MESSAGES, TurnContext, TurnState
+from policygate_rag.retrieval.naive import build_naive
 
 
 def _dump(message) -> dict:
@@ -40,10 +41,15 @@ def build_graph(config: RagConfig, *, checkpointer=None):
     if config.max_history_tokens is not None:
         raise NotImplementedError("history trimming is a W2 item; max_history_tokens must be None")
 
-    def retrieve(state: TurnState) -> TurnState:
-        if config.retrieval is RetrievalMode.NONE:
-            return {"context": [], "retrieval": {"mode": RetrievalMode.NONE.value}}
-        raise NotImplementedError(f"retrieval={config.retrieval.value} is built in W2")
+    def no_retrieval(state: TurnState) -> TurnState:
+        return {"context": [], "retrieval": {"mode": RetrievalMode.NONE.value}}
+
+    if config.retrieval is RetrievalMode.NONE:
+        retrieve = no_retrieval
+    elif config.retrieval is RetrievalMode.NAIVE:
+        retrieve = build_naive(config)
+    else:
+        raise NotImplementedError(f"retrieval={config.retrieval.value} is built later in W2")
 
     def reason(state: TurnState, runtime: Runtime[TurnContext]) -> TurnState:
         ctx = runtime.context
@@ -144,7 +150,11 @@ def _system(ctx: TurnContext, state: TurnState) -> str:
         f"<document id=\"{d['doc_id']}\" title=\"{d['title']}\">\n{d['content']}\n</document>"
         for d in context
     )
-    return f"{ctx.system_prompt}\n<retrieved_knowledge>\n{docs}\n</retrieved_knowledge>"
+    return (
+        f"{ctx.system_prompt}\n<retrieved_knowledge>\n"
+        "Knowledge base documents retrieved for the customer's latest message:\n\n"
+        f"{docs}\n</retrieved_knowledge>"
+    )
 
 
 def _emit(message: AssistantMessage, state: TurnState) -> dict:

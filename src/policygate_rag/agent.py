@@ -32,9 +32,10 @@ from tau2.environment.tool import Tool
 from tau2.utils.llm_utils import generate as tau2_generate
 
 from policygate_rag import banking
-from policygate_rag.config import RagConfig
+from policygate_rag.config import RagConfig, RetrievalMode
 from policygate_rag.graph.build import build_graph
 from policygate_rag.graph.state import MESSAGES, TurnContext
+from policygate_rag.retrieval.naive import RetrievalResources
 from policygate_rag.tracing.recorder import TraceRecorder
 
 
@@ -49,6 +50,8 @@ class RagAgentState:
         self.messages = messages
         self.session = session
         self.turn = 0
+        self.context: list[dict] = []
+        """Documents in the prompt, kept across turns until a user turn replaces them."""
 
 
 class RagAgent(HalfDuplexAgent[RagAgentState]):
@@ -65,8 +68,12 @@ class RagAgent(HalfDuplexAgent[RagAgentState]):
         generate: Callable[..., AssistantMessage] = tau2_generate,
         clock: Callable[[], datetime] = lambda: datetime.now(UTC),
         session_id: str | None = None,
+        retrieval: RetrievalResources | None = None,
     ) -> None:
         super().__init__(tools=tools, domain_policy=domain_policy)
+        if config.retrieval is not RetrievalMode.NONE and retrieval is None:
+            raise ValueError(f"retrieval={config.retrieval.value} needs RetrievalResources")
+        self.retrieval = retrieval
         self.config = config
         self.task_id = task_id
         self.recorder = recorder
@@ -122,10 +129,11 @@ class RagAgent(HalfDuplexAgent[RagAgentState]):
             max_attempts=self.config.max_internal_attempts,
             to_harness_call=banking.unwrap,
             generate=self.generate,
+            retrieval=self.retrieval,
         )
         turn_input = {
             "messages": [m.model_dump(mode="json") for m in state.messages],
-            "context": [], "retrieval": {}, "scratch": [], "attempts": 0,
+            "context": state.context, "retrieval": {}, "scratch": [], "attempts": 0,
             "verdicts": [], "outcome": "", "emitted": {}, "cost_usd": 0.0,
         }
         config = {"configurable": {"thread_id": self.thread_id}}
@@ -150,6 +158,7 @@ class RagAgent(HalfDuplexAgent[RagAgentState]):
         state.messages.extend(MESSAGES.validate_python(final["scratch"]))
         if final["outcome"] == "escalated":
             state.messages.append(emitted)
+        state.context = final.get("context") or []
         state.turn += 1
         return emitted, state
 

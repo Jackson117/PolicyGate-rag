@@ -17,7 +17,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
-from typing import Any, TypedDict
+from typing import TYPE_CHECKING, Any, TypedDict
 
 from policygate.harness.session import ExtractedFacts, HarnessSession
 from policygate.harness.types import ToolCall
@@ -25,6 +25,9 @@ from pydantic import TypeAdapter
 from tau2.data_model.message import AssistantMessage, Message
 from tau2.data_model.message import ToolCall as Tau2ToolCall
 from tau2.environment.tool import Tool
+
+if TYPE_CHECKING:
+    from policygate_rag.retrieval.naive import RetrievalResources
 
 MESSAGES: TypeAdapter = TypeAdapter(list[Message])
 
@@ -73,6 +76,9 @@ class TurnContext:
     to_harness_call: Callable[[Tau2ToolCall], ToolCall]
     generate: Callable[..., AssistantMessage]
     """tau2's ``generate`` in a run; a scripted stub in tests."""
+
+    retrieval: RetrievalResources | None = None
+    """Index, documents and embedder. Required unless retrieval is NONE."""
 
     extract: Callable[..., ExtractedFacts] | None = None
     extras: dict[str, Any] = field(default_factory=dict)
