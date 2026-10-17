@@ -102,3 +102,25 @@ def test_the_naive_arm_runs_end_to_end_on_the_cached_index(tmp_path, scripted_us
     kept = [r["data"]["retrieve"]["retrieval"].get("kept") for r in rows
             if r["type"] == "updates" and not r["ns"] and "retrieve" in r["data"]]
     assert kept and all(len(k) == 5 for k in kept if k)  # k_final documents every user turn
+
+
+def test_the_agentic_dev_arm_runs_end_to_end_on_the_cached_index(tmp_path, scripted_user):
+    from policygate_rag.retrieval.build_index import cache_path
+
+    if not cache_path("text-embedding-3-large").with_suffix(".json").exists():
+        pytest.skip("no embedding cache here (it is built once, locally, at a cost)")
+    args = runner.argparse.Namespace(
+        out=str(tmp_path / "run"), line="development", arms=["A3dev"], tasks="calibration",
+        trials=1, seed=300, model="openai/gpt-4.1-mini", prior=0.01, chunk_size=3,
+        max_concurrency=1, ledger=tmp_path / "ledger.json", dry_run=False,
+    )
+    # The scripted agent answers every call with prose, so the sufficiency check
+    # never parses: each user turn runs all rounds, exercising the full loop.
+    assert runner.run(args, generate=scripted_agent, embedder=FakeQueryEmbedder()) == 0
+    rows = [json.loads(r) for r in (tmp_path / "run" / "A3dev" / "trace.jsonl").read_text()
+            .splitlines()]
+    retrievals = [r["data"]["retrieve"]["retrieval"] for r in rows
+                  if r["type"] == "updates" and not r["ns"] and "retrieve" in r["data"]]
+    fresh = [x for x in retrievals if not x["reused"]]
+    assert fresh and all(x["stop_reason"] in ("budget_exhausted", "no_new_docs") for x in fresh)
+    assert all(len(x["rounds"]) <= 3 for x in fresh)

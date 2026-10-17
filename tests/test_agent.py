@@ -165,11 +165,14 @@ def test_a_retrieval_arm_without_resources_is_refused():
         make(Scripted(say("x")), config=config)
 
 
-def test_agentic_retrieval_is_not_built_yet():
-    from policygate_rag.graph.build import build_graph
+def test_judges_from_w3_are_refused_until_they_exist():
+    from policygate_rag.config import JudgeKind
+    from policygate_rag.runner import retrieval_resources
 
-    with pytest.raises(NotImplementedError):
-        build_graph(RagConfig(name="A3", harness=HARNESS, retrieval=RetrievalMode.AGENTIC))
+    config = RagConfig(name="A3", harness=HARNESS, retrieval=RetrievalMode.AGENTIC,
+                       judge=JudgeKind.LLM)
+    with pytest.raises(NotImplementedError, match="W3"):
+        retrieval_resources(config)
 
 
 class TestLoopGuard:

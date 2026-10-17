@@ -29,6 +29,7 @@ from tau2.data_model.message import AssistantMessage, SystemMessage, ToolCall, T
 
 from policygate_rag.config import RagConfig, RetrievalMode
 from policygate_rag.graph.state import MESSAGES, TurnContext, TurnState
+from policygate_rag.retrieval.agentic import build_agentic
 from policygate_rag.retrieval.naive import build_naive
 
 
@@ -49,7 +50,7 @@ def build_graph(config: RagConfig, *, checkpointer=None):
     elif config.retrieval is RetrievalMode.NAIVE:
         retrieve = build_naive(config)
     else:
-        raise NotImplementedError(f"retrieval={config.retrieval.value} is built later in W2")
+        retrieve = build_agentic(config)
 
     def reason(state: TurnState, runtime: Runtime[TurnContext]) -> TurnState:
         ctx = runtime.context

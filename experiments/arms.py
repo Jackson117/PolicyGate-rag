@@ -50,4 +50,7 @@ def arms(model: str = "openai/gpt-4.1-mini") -> dict[str, Arm]:
         "A1": Arm("A1", "bm25", cfg("A1")),
         "A2": Arm("A2", "no_knowledge", cfg("A2", retrieval=RetrievalMode.NAIVE)),
         # A3 (agentic, best judge from stage 1) is defined after W3 picks the judge.
+        # Development only, never in a comparison: agentic retrieval with no judge,
+        # so the loop can be exercised before W3.
+        "A3dev": Arm("A3dev", "no_knowledge", cfg("A3dev", retrieval=RetrievalMode.AGENTIC)),
     }

@@ -120,6 +120,14 @@ class RagConfig(BaseModel):
     k_final: int = Field(default=5, ge=1)
     """Documents injected into the reasoning context."""
 
+    k_wide: int = Field(default=20, ge=1)
+    """Agentic only: fused candidates taken per retrieval round, before judging."""
+
+    conversation_window: int = Field(default=6, ge=1)
+    """Agentic only: recent user and assistant text messages the sufficiency check and
+    the query rewrite see, so a turn like "My name is X" is judged against what the
+    customer actually asked for."""
+
     max_history_tokens: int | None = None
     """Trim message history to this many tokens before reasoning, starting on a
     user message so tool calls and their results are never split. ``None``

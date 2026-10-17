@@ -18,7 +18,7 @@ they were the right ones is decided in ``eval/`` against the labels.
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Literal
 
 from langgraph.graph import END, START, StateGraph
@@ -28,6 +28,8 @@ from policygate_rag.config import RagConfig, RetrievalMode
 from policygate_rag.graph.state import TurnContext, TurnState
 from policygate_rag.index.corpus import Document
 from policygate_rag.index.fusion import HybridIndex
+from policygate_rag.judges.base import Judge
+from policygate_rag.judges.none import NoJudge
 from policygate_rag.retrieval.embedder import Embedder
 
 
@@ -38,6 +40,8 @@ class RetrievalResources:
     index: HybridIndex
     docs: Mapping[str, Document]
     embedder: Embedder
+    judge: Judge = field(default_factory=NoJudge)
+    """Agentic only. Naive retrieval never judges."""
 
 
 def user_query(state: TurnState) -> str | None:

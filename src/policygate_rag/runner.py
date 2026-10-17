@@ -59,15 +59,19 @@ def select_tasks(which: str) -> list[str]:
 def retrieval_resources(config, embedder=None):
     """Index, documents and embedder for an arm that retrieves. Loads the cached
     embeddings; refuses to build them here, because building spends money."""
-    from policygate_rag.config import RetrievalMode
+    from policygate_rag.config import JudgeKind, RetrievalMode
     from policygate_rag.index.corpus import load_corpus
+    from policygate_rag.judges.none import NoJudge
     from policygate_rag.retrieval.build_index import DOCS_DIR, load_or_build
     from policygate_rag.retrieval.embedder import LiteLLMEmbedder
     from policygate_rag.retrieval.naive import RetrievalResources
 
     if config.retrieval is RetrievalMode.NONE:
         return None
+    if config.judge is not JudgeKind.NONE:
+        raise NotImplementedError(f"judge={config.judge.value} is built in W3")
     return RetrievalResources(
+        judge=NoJudge(),
         index=load_or_build(config),
         docs={d.doc_id: d for d in load_corpus(DOCS_DIR)},
         embedder=embedder or LiteLLMEmbedder(config.embedding_model),
