@@ -136,6 +136,7 @@ def build_agentic(config: RagConfig):
         last["judged"] = [{"doc_id": c.doc.doc_id, "score": s}
                           for c, s in zip(candidates, verdict.scores, strict=True)]
         last["judge_is_probability"] = verdict.is_probability
+        last["judge_external_usd"] = verdict.external_usd
         r["rounds"] = r["rounds"][:-1] + [last]
         r["usd"] += verdict.usd
         return {"retrieval": r, "cost_usd": state.get("cost_usd", 0.0) + verdict.usd}

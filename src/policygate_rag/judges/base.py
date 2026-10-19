@@ -30,6 +30,9 @@ class Judgement(BaseModel):
     scores: tuple[float, ...]
     """One per candidate, in order. Probabilities where the judge produces them."""
     usd: float = 0.0
+    """Spend on the study's model account; added to the turn's cost and the ledger."""
+    external_usd: float = 0.0
+    """Spend billed elsewhere (Jev). Recorded in the trace, never in the OpenAI ledger."""
     is_probability: bool = False
     """Whether ``scores`` are relevance probabilities, so a threshold applies."""
 

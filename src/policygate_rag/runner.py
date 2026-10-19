@@ -178,6 +178,15 @@ def run(args, *, generate=None, embedder=None) -> int:
         print("OPENAI_API_KEY is not set", file=sys.stderr)
         return 2
 
+    # Hard constraint 8: arms that do not use Jev run without a Jev key. tau2 loads
+    # .env into the environment, so the key has to be removed explicitly.
+    from policygate_rag.config import JudgeKind
+    from policygate_rag.judges.jev_client import KEY_ENV
+
+    if not any(a.config.judge is JudgeKind.JEV for a in arms):
+        os.environ.pop(KEY_ENV, None)
+    plan["jev_key_present"] = bool(os.environ.get(KEY_ENV))
+
     out_dir.mkdir(parents=True)
     (out_dir / "plan.json").write_text(json.dumps(plan, indent=2))
     for arm in arms:
