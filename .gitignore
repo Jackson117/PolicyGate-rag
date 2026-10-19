@@ -21,3 +21,4 @@ runs/*
 # Vendored benchmark (pinned separately, see third_party/PIN.md)
 third_party/tau2-bench/
 index_cache/
+.venv-*/

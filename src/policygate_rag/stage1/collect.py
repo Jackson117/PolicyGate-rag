@@ -78,8 +78,8 @@ def build_judge(name: str, config: RagConfig):
         from policygate_rag.judges.none import NoJudge
         return NoJudge()
     if name == "cross_encoder":
-        from policygate_rag.judges.cross_encoder import CrossEncoderJudge
-        return CrossEncoderJudge()
+        raise ValueError("score the cross-encoder with scripts/cross_encoder_score.py in its "
+                         "own environment (--export-pairs first); see that script")
     if name == "llm":
         from policygate_rag.judges.llm import LLMJudge
         from policygate_rag.judges.llm_client import make_ask
@@ -116,6 +116,18 @@ def collect(name: str, judge, pairs: dict[str, list[str]], docs: dict[str, Docum
     return totals
 
 
+def export_pairs(pairs: dict[str, list[str]], docs: dict[str, Document], path: Path) -> None:
+    """Pairs with the text the cross-encoder reads, as judges/cross_encoder.py builds it."""
+    from policygate_rag.judges.cross_encoder import MAX_DOC_CHARS
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w") as f:
+        for query, ids in pairs.items():
+            for d in ids:
+                text = f"{docs[d].title}\n{docs[d].content[:MAX_DOC_CHARS]}"
+                f.write(json.dumps({"query": query, "doc_id": d, "text": text}) + "\n")
+
+
 def fused_scores(queries: Iterable[Query]) -> dict[tuple[str, str], float]:
     """A stand-in RRF score per (query, doc) from rank, for the NONE judge's order."""
     out = {}
@@ -134,6 +146,8 @@ def main(argv=None) -> int:
     p.add_argument("--judges", nargs="+", choices=JUDGES, default=list(JUDGES))
     p.add_argument("--out", type=Path, default=ROOT / "runs" / "stage1")
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--export-pairs", type=Path,
+                   help="write the unique pairs for scripts/cross_encoder_score.py and stop")
     args = p.parse_args(argv)
 
     config = RagConfig()
@@ -145,6 +159,13 @@ def main(argv=None) -> int:
           f"~{est['tokens'] / 1e6:.2f}M tokens: llm ~{est['llm_usd']:.2f} USD (stage 1), "
           f"jev ~{est['jev_usd']:.2f} USD (Jev account)")
     if args.dry_run:
+        return 0
+    if args.export_pairs:
+        export_pairs(pairs, docs, args.export_pairs)
+        (args.out).mkdir(parents=True, exist_ok=True)
+        (args.out / "queries.jsonl").write_text(
+            "".join(q.model_dump_json() + "\n" for q in queries))
+        print(f"wrote {est['pairs']} pairs to {args.export_pairs}")
         return 0
 
     ledger = Ledger.load(LEDGER)
