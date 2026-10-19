@@ -229,6 +229,13 @@ def run(args, *, generate=None, embedder=None) -> int:
 
 
 def main(argv=None) -> int:
+    # A batch once deadlocked with every thread parked on a Python lock and no
+    # way to see which: `kill -USR1 <pid>` now writes every thread's stack to
+    # stderr (the run log) without stopping the run.
+    import faulthandler
+    import signal
+
+    faulthandler.register(signal.SIGUSR1, all_threads=True)
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     p.add_argument("--out", required=True, help="output directory, relative to the repo root")
     p.add_argument("--line", required=True, choices=[b.value for b in BudgetLine
