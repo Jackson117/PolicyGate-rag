@@ -10,7 +10,7 @@ from dataclasses import dataclass
 
 from policygate.harness.config import HarnessConfig
 
-from policygate_rag.config import RagConfig, RetrievalMode
+from policygate_rag.config import JudgeKind, RagConfig, RetrievalMode
 
 HARNESS = HarnessConfig(
     name="banking_grounded",
@@ -49,7 +49,10 @@ def arms(model: str = "openai/gpt-4.1-mini") -> dict[str, Arm]:
         "A4": Arm("A4", "golden_retrieval", cfg("A4")),
         "A1": Arm("A1", "bm25", cfg("A1")),
         "A2": Arm("A2", "no_knowledge", cfg("A2", retrieval=RetrievalMode.NAIVE)),
-        # A3 (agentic, best judge from stage 1) is defined after W3 picks the judge.
+        # A3: agentic retrieval with the judge stage 1 ranked best (Jev, decided
+        # 2026-10-20; docs/stage1_judges.md).
+        "A3": Arm("A3", "no_knowledge", cfg("A3", retrieval=RetrievalMode.AGENTIC,
+                                            judge=JudgeKind.JEV)),
         # Development only, never in a comparison: agentic retrieval with no judge,
         # so the loop can be exercised before W3.
         "A3dev": Arm("A3dev", "no_knowledge", cfg("A3dev", retrieval=RetrievalMode.AGENTIC)),

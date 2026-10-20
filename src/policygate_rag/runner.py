@@ -56,22 +56,57 @@ def select_tasks(which: str) -> list[str]:
     return which.split(",")
 
 
+def build_judge(config):
+    """The judge an agentic arm runs with. The cross-encoder is refused: it lives in its
+    own environment (scripts/cross_encoder_score.py) to keep transformers' dependency
+    pins out of the one every arm runs in."""
+    from policygate_rag.config import JudgeKind
+    from policygate_rag.judges.none import NoJudge
+
+    if config.judge is JudgeKind.NONE:
+        return NoJudge()
+    if config.judge is JudgeKind.JEV:
+        from policygate_rag.judges.jev import JevJudge
+        from policygate_rag.judges.jev_client import JevClient
+        return JevJudge(JevClient(model=config.jev_model).nouls)
+    if config.judge is JudgeKind.LLM:
+        from policygate_rag.judges.llm import LLMJudge
+        from policygate_rag.judges.llm_client import make_ask
+        return LLMJudge(make_ask(config.effective_aux_llm, temperature=0.0),
+                        batch_size=config.judge_batch_size)
+    raise NotImplementedError(
+        f"judge={config.judge.value} runs only offline, in its own environment")
+
+
+def traced_external_cost(trace: Path, thread_prefix: str) -> float:
+    """Spend billed outside the OpenAI account (Jev), summed from the retrieval trace."""
+    if not trace.exists():
+        return 0.0
+    total = 0.0
+    for line in trace.read_text().splitlines():
+        row = json.loads(line)
+        if row["type"] != "updates" or row["ns"] or "retrieve" not in row["data"]:
+            continue
+        if not row["thread_id"].startswith(thread_prefix):
+            continue
+        r = (row["data"]["retrieve"] or {}).get("retrieval") or {}
+        total += sum(x.get("judge_external_usd", 0.0) for x in r.get("rounds") or [])
+    return total
+
+
 def retrieval_resources(config, embedder=None):
     """Index, documents and embedder for an arm that retrieves. Loads the cached
     embeddings; refuses to build them here, because building spends money."""
-    from policygate_rag.config import JudgeKind, RetrievalMode
+    from policygate_rag.config import RetrievalMode
     from policygate_rag.index.corpus import load_corpus
-    from policygate_rag.judges.none import NoJudge
     from policygate_rag.retrieval.build_index import DOCS_DIR, load_or_build
     from policygate_rag.retrieval.embedder import LiteLLMEmbedder
     from policygate_rag.retrieval.naive import RetrievalResources
 
     if config.retrieval is RetrievalMode.NONE:
         return None
-    if config.judge is not JudgeKind.NONE:
-        raise NotImplementedError(f"judge={config.judge.value} is built in W3")
     return RetrievalResources(
-        judge=NoJudge(),
+        judge=build_judge(config),
         index=load_or_build(config),
         docs={d.doc_id: d for d in load_corpus(DOCS_DIR)},
         embedder=embedder or LiteLLMEmbedder(config.embedding_model),
@@ -222,7 +257,13 @@ def run(args, *, generate=None, embedder=None) -> int:
                 line=line, kind=EntryKind.CALL, usd=gap, model=args.model, arm=arm.id,
                 batch=run_id, label=f"{arm.id}: agent spend on attempts tau2 discarded",
             ))
-        print(f"{arm.id}: booked; agent trace {traced:.4f} vs results {booked_agent:.4f}")
+        external = traced_external_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
+        (out_dir / arm.id / "external_spend.json").write_text(json.dumps(
+            {"arm": arm.id, "judge": arm.config.judge.value, "usd": external,
+             "note": "billed to the judge provider's own account; not in runs/ledger.json"},
+            indent=1))
+        print(f"{arm.id}: booked; agent trace {traced:.4f} vs results {booked_agent:.4f}; "
+              f"external (judge account) {external:.4f}")
     print(f"line {line.value}: spent {ledger.spent(line):.4f}; total {ledger.total():.4f}. "
           "Reconcile against the provider dashboard now.")
     return 0

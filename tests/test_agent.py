@@ -165,14 +165,33 @@ def test_a_retrieval_arm_without_resources_is_refused():
         make(Scripted(say("x")), config=config)
 
 
-def test_judges_from_w3_are_refused_until_they_exist():
+def test_the_cross_encoder_is_refused_inside_an_arm():
     from policygate_rag.config import JudgeKind
-    from policygate_rag.runner import retrieval_resources
+    from policygate_rag.runner import build_judge
 
     config = RagConfig(name="A3", harness=HARNESS, retrieval=RetrievalMode.AGENTIC,
-                       judge=JudgeKind.LLM)
-    with pytest.raises(NotImplementedError, match="W3"):
-        retrieval_resources(config)
+                       judge=JudgeKind.CROSS_ENCODER, cross_encoder_model="x")
+    with pytest.raises(NotImplementedError, match="own environment"):
+        build_judge(config)
+
+
+def test_the_a3_arm_uses_the_pinned_jev_judge(monkeypatch):
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    from policygate_rag.judges.jev import JevJudge
+    from policygate_rag.runner import build_judge
+
+    path = Path(__file__).resolve().parents[1] / "experiments" / "arms.py"
+    spec = importlib.util.spec_from_file_location("arms_t", path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules["arms_t"] = mod
+    spec.loader.exec_module(mod)
+    a3 = mod.arms()["A3"].config
+    monkeypatch.setenv("JEV_API_KEY", "test")
+    assert a3.jev_model == "jev-1.13.0"
+    assert isinstance(build_judge(a3), JevJudge)
 
 
 class TestLoopGuard:
