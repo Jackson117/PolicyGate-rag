@@ -103,6 +103,46 @@ def episode_steps(messages: Sequence) -> list[Step]:
     return steps
 
 
+def live_contexts(trace: Path) -> dict[tuple[str, str], dict[int, set[str]]]:
+    """What was actually in front of the model, per (task, seed) and turn, from a
+    trace: the working set where there is one, else the turn's retrieved documents
+    (which a tool-result turn reuses)."""
+    out: dict[tuple[str, str], dict[int, set[str]]] = defaultdict(dict)
+    for row in last_attempt_rows(trace):
+        if row["type"] != "updates" or row["ns"]:
+            continue
+        _, task, seed = parse_thread(row["thread_id"])
+        data = row["data"]
+        if "remember" in data:
+            ctx = {d["doc_id"] for d in (data["remember"] or {}).get("context") or []}
+        elif "retrieve" in data:
+            r = (data["retrieve"] or {}).get("retrieval") or {}
+            if r.get("mode") in (None, "none"):
+                continue
+            ctx = set(r.get("kept") or [])
+        else:
+            continue
+        out[(task, seed)][row["turn"]] = ctx
+    return dict(out)
+
+
+def action_coverage(sims, trace: Path) -> dict[tuple[str, str], float]:
+    """Per episode: mean share of required documents in context at the steps that
+    propose a tool call. Episodes with no such step are left out."""
+    contexts = live_contexts(trace)
+    required = {k: set(v) for k, v in required_documents({s.task_id for s in sims}).items()}
+    out = {}
+    for s in sims:
+        key = (s.task_id, str(s.seed))
+        turns = contexts.get(key, {})
+        req = required[s.task_id]
+        covs = [len(turns.get(step.turn, set()) & req) / len(req)
+                for step in episode_steps(s.messages) if step.tool_calls]
+        if covs:
+            out[key] = statistics.fmean(covs)
+    return out
+
+
 # --- context policies ------------------------------------------------------
 
 @dataclass(frozen=True)

@@ -69,3 +69,26 @@ def test_replace_forgets_and_a_working_set_remembers_up_to_its_capacity():
     assert replay(ep, Policy("replace", None), look) == [{"d0"}, {"d1"}, {"d2"}]
     assert replay(ep, Policy("ws2", 2), look) == [{"d0"}, {"d0", "d1"}, {"d1", "d2"}]
     assert replay(ep, Policy("all", 0), look)[-1] == {"d0", "d1", "d2"}
+
+
+def test_live_contexts_prefer_the_working_set_and_drop_aborted_attempts(tmp_path):
+    import json
+
+    from policygate_rag.eval.replay import live_contexts
+
+    def row(turn, data):
+        return json.dumps({"thread_id": "A5-t1-seed7", "turn": turn, "type": "updates",
+                           "ns": [], "data": data})
+
+    def retrieve(kept):
+        return {"retrieve": {"retrieval": {"mode": "agentic", "kept": kept}}}
+
+    def remember(ids):
+        return {"remember": {"context": [{"doc_id": d} for d in ids]}}
+
+    lines = [row(0, retrieve(["stale"])), row(1, retrieve(["stale"])),  # stalled attempt
+             row(0, retrieve(["a"])), row(0, remember(["x", "a"])),
+             row(1, retrieve(["a"]))]
+    path = tmp_path / "trace.jsonl"
+    path.write_text("\n".join(lines) + "\n")
+    assert live_contexts(path) == {("t1", "7"): {0: {"x", "a"}, 1: {"a"}}}

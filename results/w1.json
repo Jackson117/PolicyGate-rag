@@ -82,7 +82,9 @@
       "audit_enabled": true
      },
      "max_steps": 100,
-     "k_final": 5
+     "k_final": 5,
+     "context_capacity": null,
+     "product_lookup": false
     },
     "tasks": 30,
     "trials_per_task": 3,
@@ -169,7 +171,9 @@
       "audit_enabled": true
      },
      "max_steps": 100,
-     "k_final": 5
+     "k_final": 5,
+     "context_capacity": null,
+     "product_lookup": false
     },
     "tasks": 30,
     "trials_per_task": 3,

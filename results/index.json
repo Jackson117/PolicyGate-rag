@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-20T14:30:25.908809+00:00",
- "code_commit": "cedf22fa7e8c39b20c2920cd08a56037af0c2bc7",
+ "generated_at": "2026-10-20T16:28:36.067407+00:00",
+ "code_commit": "59ad6968829c989760e9c4af8e7a0d34fb820a59",
  "files": [
   "spend.json",
   "stage1_judges.json",
@@ -12,6 +12,7 @@
   "A0": "complete",
   "A1": "complete",
   "A2": "complete",
+  "A5": "partial",
   "A3": "complete",
   "A4": "complete"
  },

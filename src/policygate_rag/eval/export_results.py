@@ -34,12 +34,13 @@ from typing import Any
 
 from policygate_rag.config import RagConfig
 from policygate_rag.eval.passk import arm_pass_k, paired_difference
+from policygate_rag.eval.replay import action_coverage
 from policygate_rag.eval.retrieval_metrics import episode_scores, read_trace, required_documents
 
 SCHEMA_VERSION = 1
 ROOT = Path(__file__).resolve().parents[3]
 OUT = ROOT / "results"
-ARM_ORDER = ("A4", "A3", "A2", "A1", "A0")
+ARM_ORDER = ("A4", "A5", "A3", "A2", "A1", "A0")
 """Pairs are reported as earlier-minus-later in this order: ceiling first, floor last."""
 
 
@@ -83,7 +84,9 @@ def _arm_config(dirs: list[str], arm: str) -> dict | None:
                         "harness": {"name": c["harness"]["name"]} | {
                             k: v for k, v in c["harness"].items()
                             if k.endswith("_enabled") and v},
-                        "max_steps": c.get("max_steps"), "k_final": c["k_final"]}
+                        "max_steps": c.get("max_steps"), "k_final": c["k_final"],
+                        "context_capacity": c.get("context_capacity"),
+                        "product_lookup": c.get("product_lookup", False)}
     return None
 
 
@@ -131,7 +134,11 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
             episodes = read_trace(trace) if trace.exists() else []
             if episodes:
                 labels = required_documents({e.task_id for e in episodes})
-                retrieval_rows += episode_scores(episodes, {k: set(v) for k, v in labels.items()})
+                rows = episode_scores(episodes, {k: set(v) for k, v in labels.items()})
+                at_action = action_coverage(_sims([d]), trace)
+                for r in rows:
+                    r["action_coverage"] = at_action.get((r["task_id"], str(r["seed"])))
+                retrieval_rows += rows
         if not retrieval_rows and (entry["config"] or {}).get("env_variant") == "bm25":
             retrieval_rows = _tool_retrieval_rows(sims)
             entry["retrieval_source"] = "tau2 KB_search tool results"
@@ -150,9 +157,9 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
         ta, tb = arms[a]["retrieval"]["per_task"], arms[b]["retrieval"]["per_task"]
         shared = sorted(set(ta) & set(tb))
         retrieval_paired[f"{a} - {b}"] = {
-            m: bootstrap_mean([ta[t][m] - tb[t][m] for t in shared
-                               if m in ta[t] and m in tb[t]]).model_dump()
+            m: bootstrap_mean(diffs).model_dump()
             for m in RETRIEVAL_METRICS
+            if (diffs := [ta[t][m] - tb[t][m] for t in shared if m in ta[t] and m in tb[t]])
         }
     paired = {}
     present = [a for a in ARM_ORDER if a in outcomes]
@@ -164,7 +171,9 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
     return {"arms": arms, "paired": paired, "retrieval_paired": retrieval_paired}
 
 
-RETRIEVAL_METRICS = ("coverage", "precision", "mrr")
+RETRIEVAL_METRICS = ("coverage", "precision", "mrr", "action_coverage")
+"""``action_coverage``: required documents in context at the steps that propose a tool
+call (eval/replay.py); trace arms only. ``coverage`` is the union over the episode."""
 TOOL_RESULT_ID = re.compile(r"^\s*ID: (\S+)", re.M)
 
 
@@ -199,8 +208,8 @@ def _retrieval_per_task(rows: list[dict]) -> dict[str, dict[str, float]]:
         by_task[r["task_id"]].append(r)
     out: dict[str, dict[str, float]] = {}
     for task, rs in sorted(by_task.items()):
-        out[task] = {m: statistics.fmean(x[m] for x in rs if x[m] is not None)
-                     for m in RETRIEVAL_METRICS if any(x[m] is not None for x in rs)}
+        out[task] = {m: statistics.fmean(x[m] for x in rs if x.get(m) is not None)
+                     for m in RETRIEVAL_METRICS if any(x.get(m) is not None for x in rs)}
     return out
 
 
@@ -211,9 +220,9 @@ def _retrieval_summary(rows: list[dict]) -> dict:
     for r in rows:
         by_task[r["task_id"]].append(r)
     out: dict[str, Any] = {"per_task": _retrieval_per_task(rows)}
-    for m in ("coverage", "precision", "mrr"):
-        vals = [statistics.fmean(x[m] for x in rs if x[m] is not None)
-                for rs in by_task.values() if any(x[m] is not None for x in rs)]
+    for m in RETRIEVAL_METRICS:
+        vals = [statistics.fmean(x[m] for x in rs if x.get(m) is not None)
+                for rs in by_task.values() if any(x.get(m) is not None for x in rs)]
         if vals:
             out[m] = bootstrap_mean(vals).model_dump()
     out["docs_shown_median"] = statistics.median(r["shown"] for r in rows)

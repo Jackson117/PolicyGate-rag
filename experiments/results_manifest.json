@@ -44,6 +44,14 @@
         "runs/stage2_guarded_a2/A2"
       ]
     },
+    "A5": {
+      "label": "Agentic RAG, Jev, working set + product lookup",
+      "runs": [
+        "runs/stage2_a5/A5",
+        "runs/stage2_a5b/A5"
+      ],
+      "note": "trial 1 seed 300 (as every arm); trials 2-3 seed 301, a separate batch"
+    },
     "A3": {
       "label": "Agentic RAG, Jev judge",
       "runs": [

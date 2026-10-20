@@ -42,7 +42,7 @@
   "development": 0.069724,
   "calibration": 0.355222,
   "stage1": 0.559127,
-  "stage2": 22.895107
+  "stage2": 27.865927
  },
  "entries": [
   {
@@ -8004,6 +8004,736 @@
    "arm": "A1",
    "batch": "ff21ba9ab1",
    "at": "2026-10-20T13:16:07.502723+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.02956428,
+   "label": "A5/task_017/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:47:35.312288+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03867596,
+   "label": "A5/task_019/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:48:52.702004+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.045689860000000006,
+   "label": "A5/task_023/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:50:36.228662+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03301506,
+   "label": "A5/task_024/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:51:54.498249+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.04531364,
+   "label": "A5/task_036/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:52:58.494887+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07871265,
+   "label": "A5/task_038/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:54:38.786478+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.11662291000000004,
+   "label": "A5/task_040/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:58:33.675511+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.029902599999999994,
+   "label": "A5/task_043/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T14:59:39.435003+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.038565669999999996,
+   "label": "A5/task_051/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:01:01.946898+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07418090000000001,
+   "label": "A5/task_052/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:04:14.881838+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.0074416099999999995,
+   "label": "A5/task_025/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:04:39.526444+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.054088489999999996,
+   "label": "A5/task_028/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:06:42.756056+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.06520221999999999,
+   "label": "A5/task_047/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:08:36.088811+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07402465999999999,
+   "label": "A5/task_055/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:12:29.564960+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08960501,
+   "label": "A5/task_056/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:15:40.540643+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08908105999999999,
+   "label": "A5/task_078/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:18:32.453399+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.0353828,
+   "label": "A5/task_079/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:19:39.788192+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.06814255,
+   "label": "A5/task_082/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:21:41.832669+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08866855000000001,
+   "label": "A5/task_084/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:23:54.536884+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.14722920999999997,
+   "label": "A5/task_085/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:27:01.664765+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.09794620000000001,
+   "label": "A5/task_022/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:30:55.009803+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.05647094999999999,
+   "label": "A5/task_064/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:32:55.532557+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03453996,
+   "label": "A5/task_065/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:34:11.384560+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.02318742,
+   "label": "A5/task_071/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:35:01.078613+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03629627,
+   "label": "A5/task_074/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:36:06.132661+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.02094836,
+   "label": "A5/task_076/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:37:20.868692+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03882534,
+   "label": "A5/task_081/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:38:22.057771+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.09961920999999999,
+   "label": "A5/task_088/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:40:42.208355+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.06987415000000001,
+   "label": "A5/task_090/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:42:26.452968+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.062415500000000006,
+   "label": "A5/task_097/seed626729",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:44:28.512380+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "call",
+   "usd": 0.10172,
+   "label": "A5: agent spend on attempts tau2 discarded",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "8eee00cbfa",
+   "at": "2026-10-20T15:44:28.855252+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03460484999999999,
+   "label": "A5/task_017/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:47:02.779807+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.04907515,
+   "label": "A5/task_017/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:47:02.783430+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.05667939999999999,
+   "label": "A5/task_019/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:49:16.167160+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08039837999999999,
+   "label": "A5/task_019/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:49:16.170722+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.04998863,
+   "label": "A5/task_023/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:50:37.528263+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.038021089999999994,
+   "label": "A5/task_023/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:50:37.532189+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.0140097,
+   "label": "A5/task_024/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:51:29.980099+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.02075158,
+   "label": "A5/task_024/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:51:29.984397+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.05296573,
+   "label": "A5/task_036/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:52:55.142388+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.06499746999999999,
+   "label": "A5/task_036/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:52:55.146968+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08805307,
+   "label": "A5/task_038/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:54:56.163043+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.10857043,
+   "label": "A5/task_038/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:54:56.167065+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.04488973,
+   "label": "A5/task_040/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:56:06.027923+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.040457919999999994,
+   "label": "A5/task_040/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:56:06.031583+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.054770150000000004,
+   "label": "A5/task_043/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:57:42.285160+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08425512999999998,
+   "label": "A5/task_043/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:57:42.288845+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03292365,
+   "label": "A5/task_051/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:58:52.438562+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.039287569999999994,
+   "label": "A5/task_051/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T15:58:52.442275+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.028265619999999998,
+   "label": "A5/task_052/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:01:03.471084+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.0710874,
+   "label": "A5/task_052/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:01:03.475002+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.008145610000000001,
+   "label": "A5/task_025/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:01:43.140623+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.014935859999999999,
+   "label": "A5/task_025/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:01:43.144376+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.09030345000000001,
+   "label": "A5/task_028/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:04:21.221544+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.11917047,
+   "label": "A5/task_028/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:04:21.225189+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08205193,
+   "label": "A5/task_047/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:06:50.899366+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.11009791999999999,
+   "label": "A5/task_047/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:06:50.907378+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07209723999999999,
+   "label": "A5/task_055/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:09:24.578481+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07983481,
+   "label": "A5/task_055/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:09:24.583461+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08266222000000002,
+   "label": "A5/task_056/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:12:09.653769+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.10832697999999999,
+   "label": "A5/task_056/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:12:09.658565+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.03844148,
+   "label": "A5/task_078/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:13:44.531734+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.06642627,
+   "label": "A5/task_078/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:13:44.539161+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.07462854999999999,
+   "label": "A5/task_079/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:16:07.895264+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.051565740000000006,
+   "label": "A5/task_079/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:16:07.899775+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.04809223,
+   "label": "A5/task_082/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:19:54.932041+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.18434639,
+   "label": "A5/task_082/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:19:54.936551+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.15584415000000001,
+   "label": "A5/task_084/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:22:54.848366+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.14138433,
+   "label": "A5/task_084/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:22:54.853012+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.08927826000000001,
+   "label": "A5/task_085/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:24:38.526382+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.09087102000000001,
+   "label": "A5/task_085/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:24:38.531338+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.11952527,
+   "label": "A5/task_022/seed656453",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:27:46.460637+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "episode",
+   "usd": 0.19778407000000003,
+   "label": "A5/task_022/seed418104",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-20T16:27:46.466516+00:00"
   }
  ]
 }
