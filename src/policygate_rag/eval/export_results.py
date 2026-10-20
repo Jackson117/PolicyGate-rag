@@ -136,6 +136,18 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
         if entry["status"] == "complete":
             outcomes[arm] = o
         arms[arm] = entry
+    from policygate_rag.eval.passk import bootstrap_mean
+
+    retrieval_paired = {}
+    with_retrieval = [a for a in ARM_ORDER if a in outcomes and "retrieval" in arms[a]]
+    for a, b in itertools.combinations(with_retrieval, 2):
+        ta, tb = arms[a]["retrieval"]["per_task"], arms[b]["retrieval"]["per_task"]
+        shared = sorted(set(ta) & set(tb))
+        retrieval_paired[f"{a} - {b}"] = {
+            m: bootstrap_mean([ta[t][m] - tb[t][m] for t in shared
+                               if m in ta[t] and m in tb[t]]).model_dump()
+            for m in RETRIEVAL_METRICS
+        }
     paired = {}
     present = [a for a in ARM_ORDER if a in outcomes]
     for a, b in itertools.combinations(present, 2):
@@ -143,7 +155,21 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
         paired[f"{a} - {b}"] = {f"pass^{k}": paired_difference(outcomes[a], outcomes[b], k
                                                                ).model_dump()
                                 for k in range(1, trials + 1)}
-    return {"arms": arms, "paired": paired}
+    return {"arms": arms, "paired": paired, "retrieval_paired": retrieval_paired}
+
+
+RETRIEVAL_METRICS = ("coverage", "precision", "mrr")
+
+
+def _retrieval_per_task(rows: list[dict]) -> dict[str, dict[str, float]]:
+    by_task: dict[str, list[dict]] = defaultdict(list)
+    for r in rows:
+        by_task[r["task_id"]].append(r)
+    out: dict[str, dict[str, float]] = {}
+    for task, rs in sorted(by_task.items()):
+        out[task] = {m: statistics.fmean(x[m] for x in rs if x[m] is not None)
+                     for m in RETRIEVAL_METRICS if any(x[m] is not None for x in rs)}
+    return out
 
 
 def _retrieval_summary(rows: list[dict]) -> dict:
@@ -152,7 +178,7 @@ def _retrieval_summary(rows: list[dict]) -> dict:
     by_task: dict[str, list[dict]] = defaultdict(list)
     for r in rows:
         by_task[r["task_id"]].append(r)
-    out = {}
+    out: dict[str, Any] = {"per_task": _retrieval_per_task(rows)}
     for m in ("coverage", "precision", "mrr"):
         vals = [statistics.fmean(x[m] for x in rs if x[m] is not None)
                 for rs in by_task.values() if any(x[m] is not None for x in rs)]

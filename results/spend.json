@@ -20,10 +20,10 @@
   },
   "stage2": {
    "allocated": 25.0,
-   "spent": 13.69639282
+   "spent": 17.979163399999997
   }
  },
- "total_spent": 14.680466059999999,
+ "total_spent": 18.963236639999998,
  "reconciliations": [
   {
    "line": "stage2",
@@ -39,6 +39,7 @@
  "billed_elsewhere_usd": {
   "stage1_judges": {
    "jev": 0.4298
-  }
+  },
+  "stage2_a3/A3": 0.7480095420000007
  }
 }
