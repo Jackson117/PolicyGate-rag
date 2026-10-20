@@ -64,9 +64,11 @@ def test_collect_resumes_and_bench_prefers_the_better_judge(tmp_path):
     from policygate_rag.eval.judge_bench import load_scores
     judges = {"none": load_scores(out_none), "oracle": load_scores(out_or)}
     report = bench(queries, judges, {"t1": {"d"}, "t2": {"b"}}, RagConfig(k_final=1))
-    assert report["judges"]["oracle"]["mrr"].startswith("1.000")
-    assert report["judges"]["none"]["mrr"].startswith("0.250")
-    assert report["paired_vs_none"]["oracle"]["mrr"].startswith("0.750")
+    assert report["judges"]["oracle"]["mrr"]["estimate"] == 1.0
+    assert report["judges"]["none"]["mrr"]["estimate"] == 0.25
+    assert report["paired"]["oracle - none"]["mrr"]["estimate"] == 0.75
+    assert set(report["paired"]) == {"oracle - none"}
+    assert report["per_task"]["oracle"]["t1"]["mrr"] == 1.0
     assert report["judges"]["oracle"]["calibration"]["pairs"] == 8
     json.dumps(report)
 

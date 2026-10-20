@@ -17,6 +17,7 @@ bootstrap over tasks, and judge-vs-judge differences are paired by task.
 
 from __future__ import annotations
 
+import itertools
 import json
 import statistics
 import sys
@@ -98,27 +99,32 @@ def bench(queries: Sequence[Query], judges: Mapping[str, tuple[dict, bool]],
                 calib[name].extend((s[d], d in req) for d in q.candidates)
 
     report: dict = {"queries": len(queries), "tasks": len({q.task_id for q in queries}),
-                    "k": config.k_final, "threshold": config.judge_threshold, "judges": {}}
+                    "k": config.k_final, "threshold": config.judge_threshold, "judges": {},
+                    "per_task": {}, "paired": {}}
     task_means: dict[str, dict[str, dict[str, float]]] = {}
     for name, tasks in per_task.items():
         means = {t: {k: statistics.fmean(v) for k, v in ms.items()} for t, ms in tasks.items()}
         task_means[name] = means
+        report["per_task"][name] = means
         metrics = sorted({k for m in means.values() for k in m})
         report["judges"][name] = {
-            k: str(bootstrap_mean([m[k] for m in means.values() if k in m])) for k in metrics
+            k: bootstrap_mean([m[k] for m in means.values() if k in m]).model_dump()
+            for k in metrics
         }
         if calib.get(name):
             report["judges"][name]["calibration"] = calibration(calib[name])
-    if "none" in task_means:
-        report["paired_vs_none"] = {}
-        for name, means in task_means.items():
-            if name == "none":
-                continue
-            shared = sorted(set(means) & set(task_means["none"]))
-            report["paired_vs_none"][name] = {
-                k: str(bootstrap_mean([means[t][k] - task_means["none"][t][k] for t in shared]))
-                for k in ("mrr", "coverage_at_k", "precision_at_k")
-            }
+    # Every pair of judges once, differences paired by task: each judge minus the
+    # no-judge baseline, and each other pair in alphabetical order ("a - b").
+    others = sorted(n for n in task_means if n != "none")
+    pairs = [(n, "none") for n in others if "none" in task_means]
+    pairs += list(itertools.combinations(others, 2))
+    for a, b in pairs:
+        shared = sorted(set(task_means[a]) & set(task_means[b]))
+        report["paired"][f"{a} - {b}"] = {
+            k: bootstrap_mean([task_means[a][t][k] - task_means[b][t][k] for t in shared]
+                              ).model_dump()
+            for k in ("mrr", "coverage_at_k", "precision_at_k")
+        }
     return report
 
 
