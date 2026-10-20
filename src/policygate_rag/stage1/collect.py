@@ -182,7 +182,7 @@ def record_costs(path: Path, judge: str, totals: dict) -> None:
 
 
 def main(argv=None) -> int:
-    from policygate_rag.cost.ledger import ALLOCATIONS, BudgetLine, Entry, EntryKind, Ledger
+    from policygate_rag.cost.ledger import BudgetLine, Entry, EntryKind, Ledger
     from policygate_rag.retrieval.build_index import DOCS_DIR, LEDGER
 
     p = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
@@ -231,7 +231,7 @@ def main(argv=None) -> int:
         print(f"LLM judge sample: {per_task} per task, {len(chosen)} unique queries, "
               f"{sub['pairs']} pairs, ~{sub['llm_usd']:.2f} USD")
     if "llm" in args.judges:
-        remaining = ALLOCATIONS[line] - ledger.spent(line)
+        remaining = ledger.allocation(line) - ledger.spent(line)
         if estimate(llm_pairs, docs)["llm_usd"] > remaining:
             print(f"LLM judge ~{est['llm_usd']:.2f} USD exceeds the {remaining:.2f} left on "
                   "the stage-1 line; not starting", file=sys.stderr)
@@ -240,7 +240,7 @@ def main(argv=None) -> int:
     def book(usd: float) -> None:
         ledger.record(Entry(line=line, kind=EntryKind.CALL, usd=usd,
                             model=config.effective_aux_llm, label="stage 1: LLM judge"))
-        if ledger.spent(line) > ALLOCATIONS[line]:
+        if ledger.spent(line) > ledger.allocation(line):
             raise RuntimeError("stage-1 line exhausted mid-collection")
 
     fused = fused_scores(queries)

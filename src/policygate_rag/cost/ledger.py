@@ -79,6 +79,18 @@ class Entry(BaseModel):
     at: str = Field(default_factory=lambda: datetime.now(UTC).isoformat())
 
 
+class Transfer(BaseModel):
+    """Money moved between budget lines, by decision, with the reason recorded."""
+
+    model_config = ConfigDict(frozen=True)
+
+    source: BudgetLine
+    target: BudgetLine
+    usd: float = Field(gt=0)
+    reason: str
+    at: str = Field(default_factory=lambda: datetime.now(UTC).isoformat())
+
+
 class BudgetExceeded(Exception):
     """A batch would exceed its allocation. Raised before anything is spent."""
 
@@ -107,9 +119,11 @@ class Projection(BaseModel):
 class Ledger:
     """Append-only spend record, persisted as JSON after every write."""
 
-    def __init__(self, path: Path, entries: Iterable[Entry] = ()) -> None:
+    def __init__(self, path: Path, entries: Iterable[Entry] = (),
+                 transfers: Iterable[Transfer] = ()) -> None:
         self.path = path
         self._entries: list[Entry] = list(entries)
+        self._transfers: list[Transfer] = list(transfers)
 
     @classmethod
     def load(cls, path: Path) -> Ledger:
@@ -118,7 +132,8 @@ class Ledger:
         raw = json.loads(path.read_text())
         if raw.get("total_usd") != TOTAL_USD:
             raise ValueError(f"{path} was written for a different budget: {raw.get('total_usd')}")
-        return cls(path, (Entry.model_validate(e) for e in raw["entries"]))
+        return cls(path, (Entry.model_validate(e) for e in raw["entries"]),
+                   (Transfer.model_validate(t) for t in raw.get("transfers", [])))
 
     @property
     def entries(self) -> tuple[Entry, ...]:
@@ -181,6 +196,8 @@ class Ledger:
         payload = {
             "total_usd": TOTAL_USD,
             "allocations": {k.value: v for k, v in ALLOCATIONS.items()},
+            "effective_allocations": {k.value: round(self.allocation(k), 6) for k in BudgetLine},
+            "transfers": [t.model_dump(mode="json") for t in self._transfers],
             "spent": {k.value: round(self.spent(k), 6) for k in BudgetLine},
             "entries": [e.model_dump(mode="json") for e in self._entries],
         }
@@ -190,6 +207,31 @@ class Ledger:
         os.replace(tmp, self.path)
 
     # --- reading -------------------------------------------------------------
+
+    @property
+    def transfers(self) -> tuple[Transfer, ...]:
+        return tuple(self._transfers)
+
+    def allocation(self, line: BudgetLine) -> float:
+        """The line's allocation after every recorded transfer."""
+        moved_in = sum(t.usd for t in self._transfers if t.target is line)
+        moved_out = sum(t.usd for t in self._transfers if t.source is line)
+        return ALLOCATIONS[line] + moved_in - moved_out
+
+    def transfer(self, source: BudgetLine, target: BudgetLine, usd: float, reason: str) -> Transfer:
+        """Move unspent money from one line to another. The reserve is untouchable, and a
+        line can only give what it has not spent; the total never changes."""
+        if BudgetLine.RESERVE in (source, target):
+            raise BudgetExceeded("the reserve is untouchable")
+        if source is target:
+            raise ValueError("a transfer needs two different lines")
+        unspent = self.allocation(source) - self.spent(source)
+        if usd > unspent + 1e-9:
+            raise BudgetExceeded(f"{source.value} has {unspent:.4f} unspent, not {usd:.4f}")
+        t = Transfer(source=source, target=target, usd=usd, reason=reason)
+        self._transfers.append(t)
+        self._save()
+        return t
 
     def spent(self, line: BudgetLine | None = None) -> float:
         return sum(e.usd for e in self._entries if line is None or e.line is line)
@@ -233,7 +275,8 @@ class Ledger:
         spent = self.spent(line)
         return Projection(
             line=line, spent=spent, remaining_episodes=episodes, per_episode=per_episode,
-            basis=basis, projected=spent + episodes * per_episode, allocation=ALLOCATIONS[line],
+            basis=basis, projected=spent + episodes * per_episode,
+            allocation=self.allocation(line),
         )
 
     def guard(

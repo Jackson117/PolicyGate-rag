@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 from policygate_rag.config import RagConfig
-from policygate_rag.cost.ledger import ALLOCATIONS, BudgetLine, Entry, EntryKind, Ledger
+from policygate_rag.cost.ledger import BudgetLine, Entry, EntryKind, Ledger
 from policygate_rag.index.bm25 import BM25Index
 from policygate_rag.index.corpus import Document, corpus_hash, load_corpus
 from policygate_rag.index.dense import DenseIndex
@@ -68,7 +68,7 @@ def load_or_build(
         )
     _, estimate = estimate_usd(docs, config.embedding_model)
     line = BudgetLine.STAGE1
-    if ledger.spent(line) + estimate > ALLOCATIONS[line]:
+    if ledger.spent(line) + estimate > ledger.allocation(line):
         raise RuntimeError(f"embedding (~{estimate:.4f} USD) would exceed the {line.value} line")
     result = embedder.embed([d.text for d in docs])
     ledger.record(Entry(
