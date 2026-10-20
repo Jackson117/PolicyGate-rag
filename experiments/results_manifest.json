@@ -1,0 +1,27 @@
+{
+  "_comment": "Which run directories hold which results. Read by python -m policygate_rag.eval.export_results; runs/ itself is not committed.",
+  "stage1": {
+    "dir": "runs/stage1",
+    "judges": {
+      "none": {"label": "Fused RRF order (no judge)"},
+      "cross_encoder": {"label": "Cross-encoder", "model": "cross-encoder/ms-marco-MiniLM-L6-v2", "revision": "233902d25c440f23af6f7d6e94d2946bac0bee0a", "runs_in": ".venv-ce (separate environment)"},
+      "jev": {"label": "TypeSafe Jev", "model": "jev-1.13.0", "billing": "Jev account"},
+      "llm": {"label": "LLM judge", "model": "openai/gpt-4.1-mini", "billing": "stage-1 line", "sampled": true}
+    }
+  },
+  "stage2": {
+    "A0": {"label": "Floor: no knowledge", "runs": ["runs/stage2_guarded/A0"]},
+    "A1": {"label": "External baseline: tau2 BM25 tool", "runs": []},
+    "A2": {"label": "Naive RAG", "runs": ["runs/stage2_guarded_a2/A2"]},
+    "A3": {"label": "Agentic RAG, Jev judge", "runs": ["runs/stage2_a3/A3"]},
+    "A4": {"label": "Ceiling: golden documents", "runs": ["runs/stage2_guarded/A4", "runs/stage2_guarded_a4b/A4"]}
+  },
+  "w1_unguarded": {
+    "superseded_by": "stage2",
+    "reason": "ran before the loop guard (policygate 0.3.0); not comparable with later arms",
+    "A0": {"label": "Floor: no knowledge", "runs": ["runs/w1_floor_ceiling/A0"]},
+    "A4": {"label": "Ceiling: golden documents", "runs": ["runs/w1_floor_ceiling/A4"]}
+  },
+  "w1_calibration": {"dir": "runs/calibration_w1"},
+  "expected_episodes_per_arm": 90
+}

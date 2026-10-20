@@ -172,6 +172,15 @@ def fused_scores(queries: Iterable[Query]) -> dict[tuple[str, str], float]:
     return out
 
 
+def record_costs(path: Path, judge: str, totals: dict) -> None:
+    """Accumulate each judge's pairs and spend across collection runs."""
+    costs = json.loads(path.read_text()) if path.exists() else {}
+    c = costs.setdefault(judge, {"pairs": 0, "usd": 0.0, "external_usd": 0.0})
+    for k in c:
+        c[k] += totals[k]
+    path.write_text(json.dumps(costs, indent=1))
+
+
 def main(argv=None) -> int:
     from policygate_rag.cost.ledger import ALLOCATIONS, BudgetLine, Entry, EntryKind, Ledger
     from policygate_rag.retrieval.build_index import DOCS_DIR, LEDGER
@@ -244,6 +253,7 @@ def main(argv=None) -> int:
                          args.out / f"scores_{name}.jsonl", on_spend=book)
         print(f"{name}: {totals['pairs']} new pairs, {totals['usd']:.4f} USD (stage 1), "
               f"{totals['external_usd']:.4f} USD (external)")
+        record_costs(args.out / "costs.json", name, totals)
     return 0
 
 
