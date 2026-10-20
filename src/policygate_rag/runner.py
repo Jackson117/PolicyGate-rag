@@ -56,6 +56,28 @@ def select_tasks(which: str) -> list[str]:
     return which.split(",")
 
 
+REQUEST_TIMEOUT_S = 180
+PLAN_IDENTITY = ("line", "model", "arms", "tasks", "trials", "seed", "chunk_size")
+"""What must match for --resume to continue a run rather than start a different one."""
+
+
+def saved_agent_cost(arm_dir: Path) -> float:
+    from tau2.data_model.simulation import Results
+
+    return sum(sim.agent_cost or 0.0 for p in sorted(arm_dir.glob("results_chunk_*.json"))
+               for sim in Results.load(p).simulations)
+
+
+def set_aside_partial_chunks(arm_dir: Path, todo: list[int]) -> None:
+    """Move tau2's half-written checkpoints for unfinished chunks out of the way, so
+    tau2 starts them fresh. Renamed, never deleted: they are evidence of what stalled."""
+    stamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%S")
+    for i in todo:
+        partial = arm_dir / "tau2" / f"chunk{i:03d}"
+        if partial.exists():
+            partial.rename(partial.with_name(f"{partial.name}.abandoned-{stamp}"))
+
+
 def build_judge(config):
     """The judge an agentic arm runs with. The cross-encoder is refused: it lives in its
     own environment (scripts/cross_encoder_score.py) to keep transformers' dependency
@@ -183,8 +205,13 @@ def run(args, *, generate=None, embedder=None) -> int:
     from tau2.runner import run_domain
 
     out_dir = (ROOT / args.out).resolve()
-    if out_dir.exists() and not args.dry_run:
-        print(f"{out_dir} exists; use a new directory (results are never mixed)", file=sys.stderr)
+    resume = getattr(args, "resume", False)
+    if out_dir.exists() and not args.dry_run and not resume:
+        print(f"{out_dir} exists; use a new directory, or --resume the same plan",
+              file=sys.stderr)
+        return 2
+    if resume and not (out_dir / "plan.json").exists():
+        print(f"--resume: no plan.json in {out_dir}", file=sys.stderr)
         return 2
     line = BudgetLine(args.line)
     all_arms = load_arms(args.model)
@@ -192,6 +219,11 @@ def run(args, *, generate=None, embedder=None) -> int:
     tasks = select_tasks(args.tasks)
     ledger = Ledger.load(args.ledger)
     run_id = uuid.uuid4().hex[:10]
+    # A model call that never answers should fail and be retried, not hold a thread
+    # for litellm's default 600 s. Transport only: nothing a model sees changes.
+    import litellm
+
+    litellm.request_timeout = REQUEST_TIMEOUT_S
 
     plan = {
         "run_id": run_id, "started_at": datetime.now(UTC).isoformat(), "line": line.value,
@@ -222,15 +254,33 @@ def run(args, *, generate=None, embedder=None) -> int:
         os.environ.pop(KEY_ENV, None)
     plan["jev_key_present"] = bool(os.environ.get(KEY_ENV))
 
-    out_dir.mkdir(parents=True)
-    (out_dir / "plan.json").write_text(json.dumps(plan, indent=2))
+    if resume:
+        stored = json.loads((out_dir / "plan.json").read_text())
+        same = {k: stored[k] for k in PLAN_IDENTITY} == {k: plan[k] for k in PLAN_IDENTITY}
+        if not same:
+            print("--resume: the stored plan differs (arms, configs, tasks, trials, seed or "
+                  "chunk size); refusing to mix results", file=sys.stderr)
+            return 2
+        run_id = stored["run_id"]  # one batch id across restarts, for the cost cross-check
+        stored.setdefault("resumed_at", []).append(datetime.now(UTC).isoformat())
+        (out_dir / "plan.json").write_text(json.dumps(stored, indent=2))
+    else:
+        out_dir.mkdir(parents=True)
+        (out_dir / "plan.json").write_text(json.dumps(plan, indent=2))
     for arm in arms:
         agent_name = register(arm, out_dir, run_id, generate, embedder)
         chunks = [tasks[i:i + args.chunk_size] for i in range(0, len(tasks), args.chunk_size)]
+        todo = [i for i in range(len(chunks))
+                if not (out_dir / arm.id / f"results_chunk_{i:03d}.json").exists()]
+        if resume:
+            set_aside_partial_chunks(out_dir / arm.id, todo)
+            print(f"{arm.id}: resuming, {len(chunks) - len(todo)} of {len(chunks)} chunks done")
         booked_agent = 0.0
 
-        def run_chunk(i, _size, arm=arm, agent_name=agent_name, chunks=chunks):
+        def run_chunk(position, _size, arm=arm, agent_name=agent_name, chunks=chunks,
+                      todo=todo):
             nonlocal booked_agent
+            i = todo[position]
             config = run_config(
                 arm, agent_name, chunks[i], trials=args.trials, seed=args.seed,
                 # Absolute, so tau2 writes inside this run's directory, not its own data/.
@@ -247,11 +297,16 @@ def run(args, *, generate=None, embedder=None) -> int:
                 booked_agent += sim.agent_cost
 
         guarded_batches(
-            ledger, line, chunks=[len(c) * args.trials for c in chunks], model=args.model,
+            ledger, line, chunks=[len(chunks[i]) * args.trials for i in todo], model=args.model,
             arm=arm.id, prior_per_episode=args.prior, run_chunk=run_chunk,
         )
         traced = traced_agent_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
-        gap = round(traced - booked_agent, 6)
+        # Across restarts: agent cost of every kept episode in this arm's directory,
+        # and gaps booked by earlier invocations of the same run.
+        booked_agent = saved_agent_cost(out_dir / arm.id)
+        booked_gaps = sum(e.usd for e in ledger.entries
+                          if e.arm == arm.id and e.batch == run_id and e.kind is EntryKind.CALL)
+        gap = round(traced - booked_agent - booked_gaps, 6)
         if gap > 0:
             ledger.record(Entry(
                 line=line, kind=EntryKind.CALL, usd=gap, model=args.model, arm=arm.id,
@@ -292,6 +347,8 @@ def main(argv=None) -> int:
     p.add_argument("--max-concurrency", type=int, default=3)
     p.add_argument("--ledger", type=Path, default=LEDGER)
     p.add_argument("--dry-run", action="store_true")
+    p.add_argument("--resume", action="store_true",
+                   help="continue an existing run directory with the same plan")
     return run(p.parse_args(argv))
 
 

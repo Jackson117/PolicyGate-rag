@@ -124,3 +124,32 @@ def test_the_agentic_dev_arm_runs_end_to_end_on_the_cached_index(tmp_path, scrip
     fresh = [x for x in retrievals if not x["reused"]]
     assert fresh and all(x["stop_reason"] in ("budget_exhausted", "no_new_docs") for x in fresh)
     assert all(len(x["rounds"]) <= 3 for x in fresh)
+
+
+def test_resume_runs_only_unfinished_chunks_and_refuses_a_different_plan(tmp_path,
+                                                                         scripted_user):
+    def args(**kw):
+        base = dict(out=str(tmp_path / "run"), line="development", arms=["A0"],
+                    tasks="calibration", trials=1, seed=300, model="openai/gpt-4.1-mini",
+                    prior=0.01, chunk_size=1, max_concurrency=1,
+                    ledger=tmp_path / "ledger.json", dry_run=False, resume=False)
+        return runner.argparse.Namespace(**(base | kw))
+
+    assert runner.run(args(), generate=scripted_agent) == 0
+    arm = tmp_path / "run" / "A0"
+    # Simulate a stall in the middle chunk: no results, a half-written tau2 checkpoint.
+    (arm / "results_chunk_001.json").unlink()
+    assert (arm / "tau2" / "chunk001").exists()
+
+    assert runner.run(args(), generate=scripted_agent) == 2  # exists, no --resume
+    assert runner.run(args(resume=True, trials=2), generate=scripted_agent) == 2  # other plan
+    assert runner.run(args(resume=True), generate=scripted_agent) == 0
+
+    assert (arm / "results_chunk_001.json").exists()
+    assert any(p.name.startswith("chunk001.abandoned-") for p in (arm / "tau2").iterdir())
+    episodes = [e for e in Ledger.load(tmp_path / "ledger.json").entries
+                if e.kind.value == "episode"]
+    assert len(episodes) == 4  # 3 first time, then only the re-run chunk
+    plan = json.loads((tmp_path / "run" / "plan.json").read_text())
+    assert len(plan["resumed_at"]) == 1
+    assert len({e.batch for e in episodes}) == 1  # one batch id across the restart
