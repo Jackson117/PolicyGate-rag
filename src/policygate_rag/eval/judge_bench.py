@@ -122,6 +122,10 @@ def bench(queries: Sequence[Query], judges: Mapping[str, tuple[dict, bool]],
     return report
 
 
+def scored_everywhere(q: Query, scores: Mapping[tuple[str, str], float]) -> bool:
+    return all((q.query, d) in scores for d in q.candidates)
+
+
 def main() -> None:
     out = Path(sys.argv[1])
     queries = [Query.model_validate_json(line)
@@ -130,7 +134,17 @@ def main() -> None:
               for p in sorted(out.glob("scores_*.jsonl"))}
     required = {k: set(v) for k, v in
                 required_documents({q.task_id for q in queries}).items()}
-    report = bench(queries, judges, required, RagConfig())
+    config = RagConfig()
+    # Primary: every judge on the same queries (the LLM judge scored a per-task
+    # sample), so differences are paired on identical inputs.
+    common = [q for q in queries if all(scored_everywhere(q, s) for s, _ in judges.values())]
+    # Secondary: the judges that scored every query, on all of them.
+    full_judges = {n: j for n, j in judges.items()
+                   if all(scored_everywhere(q, j[0]) for q in queries)}
+    report = {
+        "common": bench(common, judges, required, config),
+        "full": bench(queries, full_judges, required, config),
+    }
     (out / "bench.json").write_text(json.dumps(report, indent=2))
     print(json.dumps(report, indent=2))
 

@@ -69,3 +69,21 @@ def test_collect_resumes_and_bench_prefers_the_better_judge(tmp_path):
     assert report["paired_vs_none"]["oracle"]["mrr"].startswith("0.750")
     assert report["judges"]["oracle"]["calibration"]["pairs"] == 8
     json.dumps(report)
+
+
+def test_the_llm_sample_keeps_every_task_and_is_seeded():
+    from policygate_rag.stage1.collect import sample_per_task
+
+    queries = [q(f"t{t}", f"t{t}-q{i}", ["a"]) for t in range(5) for i in range(4)]
+    a = sample_per_task(queries, 2, seed=7)
+    assert len(a) == 10 and {x.split("-")[0] for x in a} == {f"t{t}" for t in range(5)}
+    assert a == sample_per_task(queries, 2, seed=7)
+    assert len(sample_per_task(queries, 9, seed=7)) == 20  # capped by what a task has
+
+
+def test_bench_restricts_the_primary_comparison_to_queries_every_judge_scored(tmp_path):
+    from policygate_rag.eval.judge_bench import scored_everywhere
+
+    qa, qb = q("t1", "qa", ["a", "b"]), q("t2", "qb", ["a", "b"])
+    partial = {("qa", "a"): 0.5, ("qa", "b"): 0.1}
+    assert scored_everywhere(qa, partial) and not scored_everywhere(qb, partial)

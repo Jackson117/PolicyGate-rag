@@ -128,6 +128,41 @@ def export_pairs(pairs: dict[str, list[str]], docs: dict[str, Document], path: P
                 f.write(json.dumps({"query": query, "doc_id": d, "text": text}) + "\n")
 
 
+def sample_per_task(queries: Iterable[Query], per_task: int, seed: int) -> set[str]:
+    """Up to ``per_task`` unique query texts from each task, drawn with a fixed seed.
+
+    Every task stays in the sample, so the judge comparison keeps its unit of
+    analysis (tasks) while paying for fewer queries within each.
+    """
+    import random
+
+    by_task: dict[str, list[str]] = {}
+    for q in queries:
+        texts = by_task.setdefault(q.task_id, [])
+        if q.query not in texts:
+            texts.append(q.query)
+    rng = random.Random(seed)
+    chosen: set[str] = set()
+    for task in sorted(by_task):
+        texts = sorted(by_task[task])
+        chosen.update(rng.sample(texts, min(per_task, len(texts))))
+    return chosen
+
+
+def largest_sample_within(queries: list[Query], pairs: dict[str, list[str]],
+                          docs: dict[str, Document], budget: float, seed: int) -> int:
+    """The largest per-task count whose estimated LLM-judge cost fits ``budget``."""
+    best = 0
+    for n in range(1, 200):
+        chosen = sample_per_task(queries, n, seed)
+        if estimate({q: pairs[q] for q in chosen}, docs)["llm_usd"] > budget:
+            break
+        best = n
+        if len(chosen) == len(pairs):
+            break
+    return best
+
+
 def fused_scores(queries: Iterable[Query]) -> dict[tuple[str, str], float]:
     """A stand-in RRF score per (query, doc) from rank, for the NONE judge's order."""
     out = {}
@@ -148,6 +183,10 @@ def main(argv=None) -> int:
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--export-pairs", type=Path,
                    help="write the unique pairs for scripts/cross_encoder_score.py and stop")
+    p.add_argument("--llm-budget", type=float, default=None,
+                   help="score only a per-task sample of queries with the LLM judge, as "
+                        "large as fits this many USD (estimated)")
+    p.add_argument("--seed", type=int, default=20261020)
     args = p.parse_args(argv)
 
     config = RagConfig()
@@ -170,9 +209,21 @@ def main(argv=None) -> int:
 
     ledger = Ledger.load(LEDGER)
     line = BudgetLine.STAGE1
+    llm_pairs = pairs
+    if "llm" in args.judges and args.llm_budget is not None:
+        per_task = largest_sample_within(queries, pairs, docs, args.llm_budget, args.seed)
+        chosen = sample_per_task(queries, per_task, args.seed)
+        llm_pairs = {q: ids for q, ids in pairs.items() if q in chosen}
+        args.out.mkdir(parents=True, exist_ok=True)
+        (args.out / "llm_sample.json").write_text(json.dumps(
+            {"per_task": per_task, "seed": args.seed, "budget_usd": args.llm_budget,
+             "queries": sorted(chosen)}, indent=1))
+        sub = estimate(llm_pairs, docs)
+        print(f"LLM judge sample: {per_task} per task, {len(chosen)} unique queries, "
+              f"{sub['pairs']} pairs, ~{sub['llm_usd']:.2f} USD")
     if "llm" in args.judges:
         remaining = ALLOCATIONS[line] - ledger.spent(line)
-        if est["llm_usd"] > remaining:
+        if estimate(llm_pairs, docs)["llm_usd"] > remaining:
             print(f"LLM judge ~{est['llm_usd']:.2f} USD exceeds the {remaining:.2f} left on "
                   "the stage-1 line; not starting", file=sys.stderr)
             return 2
@@ -188,7 +239,8 @@ def main(argv=None) -> int:
     (args.out / "queries.jsonl").write_text(
         "".join(q.model_dump_json() + "\n" for q in queries))
     for name in args.judges:
-        totals = collect(name, build_judge(name, config), pairs, docs, fused,
+        totals = collect(name, build_judge(name, config),
+                         llm_pairs if name == "llm" else pairs, docs, fused,
                          args.out / f"scores_{name}.jsonl", on_spend=book)
         print(f"{name}: {totals['pairs']} new pairs, {totals['usd']:.4f} USD (stage 1), "
               f"{totals['external_usd']:.4f} USD (external)")
