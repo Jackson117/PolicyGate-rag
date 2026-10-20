@@ -61,6 +61,23 @@ PLAN_IDENTITY = ("line", "model", "arms", "tasks", "trials", "seed", "chunk_size
 """What must match for --resume to continue a run rather than start a different one."""
 
 
+def install_http_client():
+    """Give litellm the study's own HTTP client, with tau2's limits, and a short timeout.
+
+    tau2 installs its own client when ``tau2.utils.llm_utils`` is imported, so that
+    import comes first; installing ours before it would be silently undone.
+    """
+    import litellm
+    import tau2.utils.llm_utils  # noqa: F401
+
+    from policygate_rag.http_pool import make_client
+
+    litellm.request_timeout = REQUEST_TIMEOUT_S
+    client = make_client(REQUEST_TIMEOUT_S)
+    litellm.client_session = client
+    return client
+
+
 def saved_agent_cost(arm_dir: Path) -> float:
     from tau2.data_model.simulation import Results
 
@@ -221,13 +238,7 @@ def run(args, *, generate=None, embedder=None) -> int:
     run_id = uuid.uuid4().hex[:10]
     # A model call that never answers should fail and be retried, not hold a thread
     # for litellm's default 600 s. Transport only: nothing a model sees changes.
-    import litellm
-
-    litellm.request_timeout = REQUEST_TIMEOUT_S
-    from policygate_rag.http_pool import make_client
-
-    http_client = make_client(REQUEST_TIMEOUT_S)
-    litellm.client_session = http_client
+    http_client = install_http_client()
 
     plan = {
         "run_id": run_id, "started_at": datetime.now(UTC).isoformat(), "line": line.value,

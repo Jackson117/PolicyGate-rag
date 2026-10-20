@@ -66,6 +66,9 @@ after a single round; `budget_exhausted` 74, `no_new_docs` 2.
 ## Infrastructure
 
 Both stalls (and A4's earlier one) had the same signature: model calls queued in httpcore's
-`wait_for_connection` while no thread did network I/O, i.e. connections leaked from litellm's
-pool of 100. Root cause not yet found. Runs now recover (resume + supervisor), and the
-runner logs the pool every minute (`http_pool.jsonl`) to identify the leak next time.
+`wait_for_connection` while no thread did network I/O, i.e. connections leaked from the HTTP
+pool. **Correction (2026-10-20):** this report first said litellm's default pool of 100; the
+pool is tau2's own, which `tau2/utils/llm_utils.py` installs on import with 10 connections
+(5 kept alive). Root cause not yet found. Runs now recover (resume + supervisor). The
+runner's pool monitor (`http_pool.jsonl`) watched a client tau2 had replaced until this was
+found; it now installs its client after tau2's, on tau2's limits, so it observes the pool in use.

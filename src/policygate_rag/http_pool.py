@@ -1,11 +1,13 @@
 """An HTTP client the study owns for litellm, and a monitor of its connection pool.
 
 Batches have stalled with every model call queued for a pool connection while no
-thread used any connection in the pool. To find out what kind of leak that is,
-the runner hands litellm this client -- the same limits litellm's own default
-client gets (httpx's 100 connections, 20 kept alive) and redirects followed, so
-model calls behave as before -- and logs the pool every minute: how many
-connections exist, how many are idle or active, how many requests wait.
+thread used any connection in the pool. The pool is tau2's: importing
+``tau2.utils.llm_utils`` sets ``litellm.client_session`` to an ``httpx.Client`` with
+10 connections, 5 kept alive. To find out what kind of leak fills it, the runner
+replaces that client -- after tau2's import, or tau2 overwrites it -- with this one,
+on the same limits so every model call behaves exactly as in earlier runs, and
+logs the pool every minute: how many connections exist, how many are idle or
+active, how many requests wait.
 Connections that stay "active" with nobody using them are leaked responses;
 a pool that fills with closed connections is another story.
 
@@ -23,7 +25,8 @@ from pathlib import Path
 
 import httpx
 
-LIMITS = httpx.Limits(max_connections=100, max_keepalive_connections=20)
+LIMITS = httpx.Limits(max_connections=10, max_keepalive_connections=5)
+"""tau2's own (tau2/utils/llm_utils.py at the pin): the transport every run has used."""
 
 
 def make_client(timeout_s: float) -> httpx.Client:
