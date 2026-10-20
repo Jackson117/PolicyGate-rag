@@ -1,0 +1,265 @@
+{
+ "schema_version": 1,
+ "calibration": {
+  "model": "openai/gpt-4.1-mini",
+  "arms": {
+   "A0": {
+    "episodes": 3,
+    "usd_per_episode": 0.007700933333333333,
+    "agent_usd": 0.005870533333333333,
+    "user_usd": 0.0018304,
+    "max_usd": 0.011462799999999999,
+    "minutes_per_episode": 0.4880661620370423,
+    "messages_per_episode": 18.666666666666668,
+    "terminations": {
+     "user_stop": 3
+    },
+    "rewards": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "A1": {
+    "episodes": 3,
+    "usd_per_episode": 0.09809666666666668,
+    "agent_usd": 0.07952466666666669,
+    "user_usd": 0.018571999999999998,
+    "max_usd": 0.26855000000000007,
+    "minutes_per_episode": 3.002763382177283,
+    "messages_per_episode": 84.33333333333333,
+    "terminations": {
+     "user_stop": 2,
+     "max_steps": 1
+    },
+    "rewards": [
+     0.0,
+     0.0,
+     0.0
+    ]
+   },
+   "A4": {
+    "episodes": 3,
+    "usd_per_episode": 0.012609733333333333,
+    "agent_usd": 0.010145866666666666,
+    "user_usd": 0.0024638666666666666,
+    "max_usd": 0.02114,
+    "minutes_per_episode": 0.5686839520879504,
+    "messages_per_episode": 21.0,
+    "terminations": {
+     "user_stop": 3
+    },
+    "rewards": [
+     1.0,
+     1.0,
+     0.0
+    ]
+   }
+  },
+  "mean_usd_per_episode_over_arms": 0.039469111111111115,
+  "stage2_allowance": 0.05555555555555555,
+  "fits": true
+ },
+ "unguarded": {
+  "superseded_by": "stage2",
+  "reason": "ran before the loop guard (policygate 0.3.0); not comparable with later arms",
+  "arms": {
+   "A0": {
+    "label": "Floor: no knowledge",
+    "runs": [
+     "runs/w1_floor_ceiling/A0"
+    ],
+    "episodes": 90,
+    "status": "complete",
+    "config": {
+     "env_variant": "no_knowledge",
+     "retrieval": "none",
+     "judge": "none",
+     "agent_llm": "openai/gpt-4.1-mini",
+     "harness": {
+      "name": "banking_grounded",
+      "gating_enabled": true,
+      "audit_enabled": true
+     },
+     "max_steps": 100,
+     "k_final": 5
+    },
+    "tasks": 30,
+    "trials_per_task": 3,
+    "pass_k": {
+     "pass^1": {
+      "estimate": 0.01111111111111111,
+      "low": 0.0,
+      "high": 0.03333333333333333,
+      "n_tasks": 30
+     },
+     "pass^2": {
+      "estimate": 0.0,
+      "low": 0.0,
+      "high": 0.0,
+      "n_tasks": 30
+     },
+     "pass^3": {
+      "estimate": 0.0,
+      "low": 0.0,
+      "high": 0.0,
+      "n_tasks": 30
+     }
+    },
+    "per_task_successes": {
+     "task_017": 0,
+     "task_019": 0,
+     "task_022": 0,
+     "task_023": 1,
+     "task_024": 0,
+     "task_025": 0,
+     "task_028": 0,
+     "task_036": 0,
+     "task_038": 0,
+     "task_040": 0,
+     "task_043": 0,
+     "task_047": 0,
+     "task_051": 0,
+     "task_052": 0,
+     "task_055": 0,
+     "task_056": 0,
+     "task_064": 0,
+     "task_065": 0,
+     "task_071": 0,
+     "task_074": 0,
+     "task_076": 0,
+     "task_078": 0,
+     "task_079": 0,
+     "task_081": 0,
+     "task_082": 0,
+     "task_084": 0,
+     "task_085": 0,
+     "task_088": 0,
+     "task_090": 0,
+     "task_097": 0
+    },
+    "cost": {
+     "usd_total": 1.158844,
+     "usd_mean": 0.012876044444444444,
+     "usd_max": 0.06877079999999999,
+     "external_usd": 0
+    },
+    "terminations": {
+     "user_stop": 88,
+     "max_steps": 2
+    },
+    "infrastructure_errors": 0,
+    "loop_guard_refusals": 0
+   },
+   "A4": {
+    "label": "Ceiling: golden documents",
+    "runs": [
+     "runs/w1_floor_ceiling/A4"
+    ],
+    "episodes": 90,
+    "status": "complete",
+    "config": {
+     "env_variant": "golden_retrieval",
+     "retrieval": "none",
+     "judge": "none",
+     "agent_llm": "openai/gpt-4.1-mini",
+     "harness": {
+      "name": "banking_grounded",
+      "gating_enabled": true,
+      "audit_enabled": true
+     },
+     "max_steps": 100,
+     "k_final": 5
+    },
+    "tasks": 30,
+    "trials_per_task": 3,
+    "pass_k": {
+     "pass^1": {
+      "estimate": 0.17777777777777776,
+      "low": 0.08888888888888888,
+      "high": 0.2777777777777778,
+      "n_tasks": 30
+     },
+     "pass^2": {
+      "estimate": 0.07777777777777777,
+      "low": 0.01111111111111111,
+      "high": 0.15555555555555556,
+      "n_tasks": 30
+     },
+     "pass^3": {
+      "estimate": 0.03333333333333333,
+      "low": 0.0,
+      "high": 0.1,
+      "n_tasks": 30
+     }
+    },
+    "per_task_successes": {
+     "task_017": 1,
+     "task_019": 0,
+     "task_022": 0,
+     "task_023": 1,
+     "task_024": 2,
+     "task_025": 3,
+     "task_028": 0,
+     "task_036": 2,
+     "task_038": 0,
+     "task_040": 0,
+     "task_043": 0,
+     "task_047": 1,
+     "task_051": 0,
+     "task_052": 0,
+     "task_055": 1,
+     "task_056": 1,
+     "task_064": 2,
+     "task_065": 0,
+     "task_071": 0,
+     "task_074": 0,
+     "task_076": 2,
+     "task_078": 0,
+     "task_079": 0,
+     "task_081": 0,
+     "task_082": 0,
+     "task_084": 0,
+     "task_085": 0,
+     "task_088": 0,
+     "task_090": 0,
+     "task_097": 0
+    },
+    "cost": {
+     "usd_total": 4.7680608,
+     "usd_mean": 0.05297845333333333,
+     "usd_max": 0.11744800000000001,
+     "external_usd": 0
+    },
+    "terminations": {
+     "user_stop": 56,
+     "max_steps": 34
+    },
+    "infrastructure_errors": 0,
+    "loop_guard_refusals": 0
+   }
+  },
+  "paired": {
+   "A4 - A0": {
+    "pass^1": {
+     "estimate": 0.16666666666666666,
+     "low": 0.07777777777777777,
+     "high": 0.27777777777777773,
+     "n_tasks": 30
+    },
+    "pass^2": {
+     "estimate": 0.07777777777777777,
+     "low": 0.01111111111111111,
+     "high": 0.16666666666666666,
+     "n_tasks": 30
+    },
+    "pass^3": {
+     "estimate": 0.03333333333333333,
+     "low": 0.0,
+     "high": 0.1,
+     "n_tasks": 30
+    }
+   }
+  }
+ }
+}

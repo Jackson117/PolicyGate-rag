@@ -1,0 +1,383 @@
+{
+ "schema_version": 1,
+ "arms": {
+  "A0": {
+   "label": "Floor: no knowledge",
+   "runs": [
+    "runs/stage2_guarded/A0"
+   ],
+   "episodes": 90,
+   "status": "complete",
+   "config": {
+    "env_variant": "no_knowledge",
+    "retrieval": "none",
+    "judge": "none",
+    "agent_llm": "openai/gpt-4.1-mini",
+    "harness": {
+     "name": "banking_grounded",
+     "gating_enabled": true,
+     "audit_enabled": true,
+     "loop_guards_enabled": true
+    },
+    "max_steps": 100,
+    "k_final": 5
+   },
+   "tasks": 30,
+   "trials_per_task": 3,
+   "pass_k": {
+    "pass^1": {
+     "estimate": 0.02222222222222222,
+     "low": 0.0,
+     "high": 0.06666666666666667,
+     "n_tasks": 30
+    },
+    "pass^2": {
+     "estimate": 0.01111111111111111,
+     "low": 0.0,
+     "high": 0.03333333333333333,
+     "n_tasks": 30
+    },
+    "pass^3": {
+     "estimate": 0.0,
+     "low": 0.0,
+     "high": 0.0,
+     "n_tasks": 30
+    }
+   },
+   "per_task_successes": {
+    "task_017": 0,
+    "task_019": 0,
+    "task_022": 0,
+    "task_023": 2,
+    "task_024": 0,
+    "task_025": 0,
+    "task_028": 0,
+    "task_036": 0,
+    "task_038": 0,
+    "task_040": 0,
+    "task_043": 0,
+    "task_047": 0,
+    "task_051": 0,
+    "task_052": 0,
+    "task_055": 0,
+    "task_056": 0,
+    "task_064": 0,
+    "task_065": 0,
+    "task_071": 0,
+    "task_074": 0,
+    "task_076": 0,
+    "task_078": 0,
+    "task_079": 0,
+    "task_081": 0,
+    "task_082": 0,
+    "task_084": 0,
+    "task_085": 0,
+    "task_088": 0,
+    "task_090": 0,
+    "task_097": 0
+   },
+   "cost": {
+    "usd_total": 1.2521596,
+    "usd_mean": 0.013912884444444443,
+    "usd_max": 0.05663119999999999,
+    "external_usd": 0
+   },
+   "terminations": {
+    "user_stop": 89,
+    "max_steps": 1
+   },
+   "infrastructure_errors": 0,
+   "loop_guard_refusals": 1
+  },
+  "A1": {
+   "label": "External baseline: tau2 BM25 tool",
+   "runs": [],
+   "episodes": 0,
+   "status": "not run"
+  },
+  "A2": {
+   "label": "Naive RAG",
+   "runs": [
+    "runs/stage2_guarded_a2/A2"
+   ],
+   "episodes": 90,
+   "status": "complete",
+   "config": {
+    "env_variant": "no_knowledge",
+    "retrieval": "naive",
+    "judge": "none",
+    "agent_llm": "openai/gpt-4.1-mini",
+    "harness": {
+     "name": "banking_grounded",
+     "gating_enabled": true,
+     "audit_enabled": true,
+     "loop_guards_enabled": true
+    },
+    "max_steps": 100,
+    "k_final": 5
+   },
+   "tasks": 30,
+   "trials_per_task": 3,
+   "pass_k": {
+    "pass^1": {
+     "estimate": 0.04444444444444444,
+     "low": 0.0,
+     "high": 0.1,
+     "n_tasks": 30
+    },
+    "pass^2": {
+     "estimate": 0.01111111111111111,
+     "low": 0.0,
+     "high": 0.03333333333333333,
+     "n_tasks": 30
+    },
+    "pass^3": {
+     "estimate": 0.0,
+     "low": 0.0,
+     "high": 0.0,
+     "n_tasks": 30
+    }
+   },
+   "per_task_successes": {
+    "task_017": 0,
+    "task_019": 0,
+    "task_022": 0,
+    "task_023": 1,
+    "task_024": 2,
+    "task_025": 0,
+    "task_028": 0,
+    "task_036": 1,
+    "task_038": 0,
+    "task_040": 0,
+    "task_043": 0,
+    "task_047": 0,
+    "task_051": 0,
+    "task_052": 0,
+    "task_055": 0,
+    "task_056": 0,
+    "task_064": 0,
+    "task_065": 0,
+    "task_071": 0,
+    "task_074": 0,
+    "task_076": 0,
+    "task_078": 0,
+    "task_079": 0,
+    "task_081": 0,
+    "task_082": 0,
+    "task_084": 0,
+    "task_085": 0,
+    "task_088": 0,
+    "task_090": 0,
+    "task_097": 0
+   },
+   "cost": {
+    "usd_total": 2.99666102,
+    "usd_mean": 0.033296233555555554,
+    "usd_max": 0.15591769,
+    "external_usd": 0
+   },
+   "terminations": {
+    "user_stop": 88,
+    "max_steps": 2
+   },
+   "infrastructure_errors": 0,
+   "loop_guard_refusals": 11,
+   "retrieval": {
+    "coverage": {
+     "estimate": 0.31775214720866896,
+     "low": 0.2615260291238552,
+     "high": 0.3753787578162578,
+     "n_tasks": 30
+    },
+    "precision": {
+     "estimate": 0.12211367940864276,
+     "low": 0.09839257548197715,
+     "high": 0.1461579331026074,
+     "n_tasks": 30
+    },
+    "mrr": {
+     "estimate": 0.3608289974522565,
+     "low": 0.2989105192333247,
+     "high": 0.42133306799286463,
+     "n_tasks": 30
+    },
+    "docs_shown_median": 24.0,
+    "queries_median": 7.0
+   }
+  },
+  "A3": {
+   "label": "Agentic RAG, Jev judge",
+   "runs": [
+    "runs/stage2_a3/A3"
+   ],
+   "episodes": 3,
+   "status": "partial",
+   "config": {
+    "env_variant": "no_knowledge",
+    "retrieval": "agentic",
+    "judge": "jev",
+    "agent_llm": "openai/gpt-4.1-mini",
+    "harness": {
+     "name": "banking_grounded",
+     "gating_enabled": true,
+     "audit_enabled": true,
+     "loop_guards_enabled": true
+    },
+    "max_steps": 100,
+    "k_final": 5
+   },
+   "tasks_started": 1
+  },
+  "A4": {
+   "label": "Ceiling: golden documents",
+   "runs": [
+    "runs/stage2_guarded/A4",
+    "runs/stage2_guarded_a4b/A4"
+   ],
+   "episodes": 90,
+   "status": "complete",
+   "config": {
+    "env_variant": "golden_retrieval",
+    "retrieval": "none",
+    "judge": "none",
+    "agent_llm": "openai/gpt-4.1-mini",
+    "harness": {
+     "name": "banking_grounded",
+     "gating_enabled": true,
+     "audit_enabled": true,
+     "loop_guards_enabled": true
+    },
+    "max_steps": 100,
+    "k_final": 5
+   },
+   "tasks": 30,
+   "trials_per_task": 3,
+   "pass_k": {
+    "pass^1": {
+     "estimate": 0.22222222222222224,
+     "low": 0.08888888888888888,
+     "high": 0.3777777777777778,
+     "n_tasks": 30
+    },
+    "pass^2": {
+     "estimate": 0.2111111111111111,
+     "low": 0.07777777777777778,
+     "high": 0.36666666666666664,
+     "n_tasks": 30
+    },
+    "pass^3": {
+     "estimate": 0.2,
+     "low": 0.06666666666666667,
+     "high": 0.36666666666666664,
+     "n_tasks": 30
+    }
+   },
+   "per_task_successes": {
+    "task_017": 2,
+    "task_019": 0,
+    "task_022": 0,
+    "task_023": 0,
+    "task_024": 3,
+    "task_025": 3,
+    "task_028": 0,
+    "task_036": 3,
+    "task_038": 0,
+    "task_040": 0,
+    "task_043": 0,
+    "task_047": 0,
+    "task_051": 0,
+    "task_052": 0,
+    "task_055": 3,
+    "task_056": 0,
+    "task_064": 3,
+    "task_065": 0,
+    "task_071": 0,
+    "task_074": 0,
+    "task_076": 3,
+    "task_078": 0,
+    "task_079": 0,
+    "task_081": 0,
+    "task_082": 0,
+    "task_084": 0,
+    "task_085": 0,
+    "task_088": 0,
+    "task_090": 0,
+    "task_097": 0
+   },
+   "cost": {
+    "usd_total": 3.4187752,
+    "usd_mean": 0.03798639111111111,
+    "usd_max": 0.23742519999999998,
+    "external_usd": 0
+   },
+   "terminations": {
+    "user_stop": 86,
+    "max_steps": 4
+   },
+   "infrastructure_errors": 0,
+   "loop_guard_refusals": 100
+  }
+ },
+ "paired": {
+  "A4 - A2": {
+   "pass^1": {
+    "estimate": 0.17777777777777776,
+    "low": 0.05555555555555556,
+    "high": 0.3222222222222222,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.2,
+    "low": 0.07777777777777778,
+    "high": 0.34444444444444444,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.2,
+    "low": 0.06666666666666667,
+    "high": 0.36666666666666664,
+    "n_tasks": 30
+   }
+  },
+  "A4 - A0": {
+   "pass^1": {
+    "estimate": 0.2,
+    "low": 0.05555555555555556,
+    "high": 0.36666666666666664,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.2,
+    "low": 0.06666666666666667,
+    "high": 0.3555555555555555,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.2,
+    "low": 0.06666666666666667,
+    "high": 0.36666666666666664,
+    "n_tasks": 30
+   }
+  },
+  "A2 - A0": {
+   "pass^1": {
+    "estimate": 0.02222222222222222,
+    "low": -0.02222222222222222,
+    "high": 0.07777777777777777,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.0,
+    "low": -0.03333333333333333,
+    "high": 0.03333333333333333,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "n_tasks": 30
+   }
+  }
+ }
+}

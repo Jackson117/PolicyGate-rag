@@ -1,0 +1,44 @@
+{
+ "schema_version": 1,
+ "ceiling_usd": 33.8,
+ "lines": {
+  "reserve": {
+   "allocated": 3.8,
+   "spent": 0
+  },
+  "development": {
+   "allocated": 3.0,
+   "spent": 0.06972425
+  },
+  "calibration": {
+   "allocated": 1.0,
+   "spent": 0.35522200000000004
+  },
+  "stage1": {
+   "allocated": 1.0,
+   "spent": 0.55912699
+  },
+  "stage2": {
+   "allocated": 25.0,
+   "spent": 13.69639282
+  }
+ },
+ "total_spent": 14.680466059999999,
+ "reconciliations": [
+  {
+   "line": "stage2",
+   "kind": "reconciliation",
+   "usd": 0.007873,
+   "label": "dashboard 6.2900 vs ledger 6.2821: provider dashboard 2026-10-12 (gpt-4.1-mini only; shown to the cent)",
+   "model": null,
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-13T04:00:42.936270+00:00"
+  }
+ ],
+ "billed_elsewhere_usd": {
+  "stage1_judges": {
+   "jev": 0.4298
+  }
+ }
+}
