@@ -11,7 +11,7 @@
   "reserve": 0,
   "development": 0.069724,
   "calibration": 0.355222,
-  "stage1": 0.023393,
+  "stage1": 0.559127,
   "stage2": 13.602374
  },
  "entries": [
@@ -4674,6 +4674,1496 @@
    "arm": "A2",
    "batch": "fa51c6caeb",
    "at": "2026-10-19T10:15:03.807830+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003928,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:15.373506+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0037459999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:21.251320+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0047256,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:26.626430+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032104,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:30.503077+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0036371999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:35.169403+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035024,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:39.120435+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003374,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:44.136888+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004182,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:49.386343+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035139999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:55:57.042277+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038359999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:01.547916+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0044172,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:07.394757+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003516,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:11.784683+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038816,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:17.834314+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035551999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:23.781200+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004347199999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:28.525569+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034168,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:33.890017+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035075999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:38.985648+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032963999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:45.236265+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0029724,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:49.468950+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032827999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:54.341749+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.00332,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:56:58.964685+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030812,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:03.250647+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028404,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:08.097055+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028212000000000003,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:13.853017+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031988,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:19.782460+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030732,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:24.859138+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032312,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:32.751610+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028164,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:37.340138+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034108,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:42.189919+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0033531999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:46.947368+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0037007999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:50.891497+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0027308,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:55.006572+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038583999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:57:59.559738+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034152,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:03.994589+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038355999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:08.470287+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028668,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:13.065270+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0041176,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:17.978387+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0041611999999999994,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:22.653672+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003394,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:28.936967+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038483999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:33.919784+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004004,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:38.176131+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004431599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:43.965522+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004070799999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:48.473055+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0043088,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:53.394151+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004718399999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:58:58.259835+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0027512,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:01.950299+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035864,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:07.010046+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004281999999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:11.398655+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004248399999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:17.088071+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0033591999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:21.330208+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0023956,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:25.728033+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004113599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:31.186774+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0042112,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:36.648853+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0021484,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:41.608319+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004402,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:46.524809+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003306,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:50.927922+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0039423999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T08:59:55.371641+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034284,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:00.472176+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003854399999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:04.899671+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028776,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:09.233334+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031659999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:14.058108+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.00275,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:19.736939+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028136000000000003,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:25.147280+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0037968,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:29.868037+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0037643999999999998,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:34.422382+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004422799999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:39.463671+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004751199999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:44.677097+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0023496,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:50.305698+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038824,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:00:55.663342+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032664,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:00.538609+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035712,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:06.984729+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003894,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:31.445615+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038828,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:35.573046+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0020927999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:40.366622+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0040564,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:44.727553+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0039943999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:48.770454+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034555999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:53.710273+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003202,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:01:58.589395+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038875999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:03.312215+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030488,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:07.503301+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0028888,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:11.299771+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031123999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:15.762495+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031276,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:19.817169+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003338,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:24.684162+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0035096,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:28.976641+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031780000000000003,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:34.741318+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030543999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:39.463167+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038652,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:43.063336+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0022703999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:47.161504+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004015599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:50.610986+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0033832,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:54.771975+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0033515999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:02:58.982934+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0024104,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:02.271192+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0029616,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:06.486826+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004525599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:10.378242+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003746,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:15.616929+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0026156,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:19.283524+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0043756,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:23.893042+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003534,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:27.789672+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0024656,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:31.483048+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0027424,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:35.900214+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0026464,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:39.784076+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0027164,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:43.681397+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0029608,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:47.001210+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0046207999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:51.333496+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032576,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:55.037502+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0032464,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:03:59.635642+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.003984,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:03.742933+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004053599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:08.403087+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0033827999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:12.928226+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0041716,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:17.551602+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0036619999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:22.170611+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030099999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:26.671191+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0029448,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:31.152588+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0042504,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:35.774077+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0038247999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:40.285192+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0026707999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:44.471146+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.002874,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:48.668743+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0042048,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:54.031905+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004602799999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:04:58.571608+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004856399999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:02.121256+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.005454,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:06.904436+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004391599999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:11.465574+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004892799999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:15.362860+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0040808,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:19.199104+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0025151999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:23.908585+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034712,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:28.453387+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004581199999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:32.681683+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0047624,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:37.515936+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0045804,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:43.832151+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0049372,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:48.212550+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0040328,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:52.602284+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0030784,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:05:57.705609+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004026,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:03.065442+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034155999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:07.110275+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0026423999999999996,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:13.864137+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0026072,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:19.615599+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0044436,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:25.743226+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0039632,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:30.041753+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0031199999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:36.821411+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0039016,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:43.328316+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0037415999999999994,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:47.911814+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0046359999999999995,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:51.723605+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004845199999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:06:56.922666+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0034411999999999997,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:07:06.204012+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0036424,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:07:12.366226+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0025648,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:07:16.442123+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.004131999999999999,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:07:20.362524+00:00"
+  },
+  {
+   "line": "stage1",
+   "kind": "call",
+   "usd": 0.0040076,
+   "label": "stage 1: LLM judge",
+   "model": "openai/gpt-4.1-mini",
+   "arm": null,
+   "batch": null,
+   "at": "2026-10-20T09:07:25.983788+00:00"
   }
  ]
 }
