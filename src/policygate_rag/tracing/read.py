@@ -47,12 +47,32 @@ def parse_thread(thread_id: str) -> tuple[str, str, str]:
     return m["arm"], m["task"], m["seed"]
 
 
-def read_trace(path: Path) -> list[EpisodeRetrieval]:
-    """Every episode's retrieval from one arm's trace.jsonl."""
-    shown: dict[str, set[str]] = defaultdict(set)
-    queries: dict[str, list[Query]] = defaultdict(list)
+def last_attempt_rows(path: Path) -> list[dict]:
+    """The trace's rows, keeping each thread's last attempt only.
+
+    An episode stopped by a stall and re-run with ``--resume`` appears twice under
+    the same thread id. The re-run's turn numbers restart at 0, and only it is the
+    episode tau2 scored, so an earlier attempt's rows are dropped. Attempts are
+    told apart on graph updates only; other row types carry no ordering promise.
+    """
+    rows: dict[str, list[dict]] = defaultdict(list)
+    last_turn: dict[str, int] = {}
     for line in path.read_text().splitlines():
         row = json.loads(line)
+        thread, turn = row["thread_id"], row["turn"]
+        if row["type"] == "updates":
+            if turn < last_turn.get(thread, -1):
+                rows[thread] = []
+            last_turn[thread] = turn
+        rows[thread].append(row)
+    return [row for thread_rows in rows.values() for row in thread_rows]
+
+
+def read_trace(path: Path) -> list[EpisodeRetrieval]:
+    """Every episode's retrieval from one arm's trace.jsonl (last attempts only)."""
+    shown: dict[str, set[str]] = defaultdict(set)
+    queries: dict[str, list[Query]] = defaultdict(list)
+    for row in last_attempt_rows(path):
         if row["type"] != "updates" or row["ns"] or "retrieve" not in row["data"]:
             continue
         r = (row["data"]["retrieve"] or {}).get("retrieval") or {}

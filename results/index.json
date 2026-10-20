@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-20T13:17:35.032996+00:00",
- "code_commit": "c81826b4131bfb01135732d733c157a4cc511035",
+ "generated_at": "2026-10-20T14:30:25.908809+00:00",
+ "code_commit": "cedf22fa7e8c39b20c2920cd08a56037af0c2bc7",
  "files": [
   "spend.json",
   "stage1_judges.json",

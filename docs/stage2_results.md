@@ -31,12 +31,12 @@ Intervals: 95% percentile bootstrap over tasks (10,000 resamples); differences p
 
 | | A1 tau2 BM25 tool | A2 naive | A3 agentic + Jev |
 |---|---|---|---|
-| Coverage of required documents | 0.329 [0.262, 0.398] | 0.318 [0.262, 0.375] | 0.432 [0.366, 0.499] |
-| Precision of documents shown | 0.181 [0.142, 0.227] | 0.122 [0.098, 0.146] | 0.206 [0.167, 0.246] |
-| Query MRR | 0.582 [0.475, 0.688] | 0.361 [0.299, 0.421] | 0.438 [0.385, 0.492] |
+| Coverage of required documents | 0.329 [0.262, 0.398] | 0.318 [0.262, 0.375] | 0.427 [0.361, 0.495] |
+| Precision of documents shown | 0.181 [0.142, 0.227] | 0.122 [0.098, 0.146] | 0.207 [0.168, 0.247] |
+| Query MRR | 0.582 [0.475, 0.688] | 0.361 [0.299, 0.421] | 0.442 [0.389, 0.497] |
 | Queries per episode (median) | 2 | 7 | 11 |
 
-Paired: A3 - A2 coverage +0.114 [+0.061, +0.175]; A3 - A1 coverage +0.103 [+0.031, +0.179].
+Paired: A3 - A2 coverage +0.109 [+0.057, +0.169]; A3 - A1 coverage +0.098 [+0.025, +0.174].
 A1's documents come from the `KB_search` results in tau2's messages (ids in rank order), the
 others' from the retrieval trace. MRR is not comparable across arms: A1's few queries are
 written by the model, A2's are the user's words, A3's include rewrites.
@@ -55,7 +55,7 @@ no_knowledge   tau2 bm25   naive RAG   agentic RAG   golden
 - **Failure attributable to retrieval** (golden - best retrieval arm): 0.178 [0.056, 0.322].
 - **Failure that remains with perfect documents** (1 - golden): 0.778 of attempts.
   Retrieval explains less of this domain's failure than everything else does.
-- **Coverage looks like a threshold.** 0.33-0.43 coverage buys nothing measurable; the
+- **Coverage looks like a threshold.** 0.32-0.43 coverage buys nothing measurable; the
   complete set buys about a fifth of the tasks. Whether intermediate coverage (say 0.7)
   helps is not answered by these arms.
 

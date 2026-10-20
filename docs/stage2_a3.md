@@ -30,12 +30,14 @@ Intervals: 95% bootstrap over tasks; differences paired by task.
 
 | | A2 naive | A3 agentic + Jev | A3 - A2 (paired) |
 |---|---|---|---|
-| Coverage of required documents | 0.318 [0.262, 0.375] | 0.432 [0.366, 0.499] | **+0.114 [+0.061, +0.175]** |
-| Precision of documents shown | 0.122 [0.098, 0.146] | 0.206 [0.167, 0.246] | **+0.083 [+0.057, +0.111]** |
-| Query MRR | 0.361 [0.299, 0.421] | 0.438 [0.385, 0.492] | **+0.077 [+0.037, +0.115]** |
+| Coverage of required documents | 0.318 [0.262, 0.375] | 0.427 [0.361, 0.495] | **+0.109 [+0.057, +0.169]** |
+| Precision of documents shown | 0.122 [0.098, 0.146] | 0.207 [0.168, 0.247] | **+0.084 [+0.058, +0.112]** |
+| Query MRR | 0.361 [0.299, 0.421] | 0.442 [0.389, 0.497] | **+0.081 [+0.041, +0.120]** |
 
-The agentic loop stopped as `sufficient` in 740 of 816 fresh retrievals (91%), 608 of them
-after a single round; `budget_exhausted` 74, `no_new_docs` 2.
+The agentic loop stopped as `sufficient` in 673 of 738 fresh retrievals (91%), 557 of them
+after a single round; `budget_exhausted` 64, `no_new_docs` 1. (Retrieval figures count each
+episode's scored attempt only; 16 episodes also have an earlier attempt, stopped by a stall,
+in the trace. Before 2026-10-20 those were counted too, which put coverage at 0.432.)
 
 ## What it means
 

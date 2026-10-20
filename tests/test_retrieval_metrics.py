@@ -62,3 +62,22 @@ def test_episodes_union_what_was_shown_and_list_every_query(tmp_path):
     assert score["coverage"] == 0.5
     assert score["precision"] == pytest.approx(1 / 3)
     assert score["mrr"] == pytest.approx((1 / 2 + 0) / 2)
+
+
+def test_an_aborted_attempt_is_replaced_by_the_rerun(tmp_path):
+    cand = lambda *ids: [{"doc_id": i, "score": 0.1, "ranks": {}} for i in ids]  # noqa: E731
+    first = lambda turn, kept: _row("A3-t1-seed1", turn, {  # noqa: E731
+        "mode": "agentic", "reused": False, "query": f"q{turn}",
+        "rounds": [{"query": f"q{turn}", "candidates": cand(*kept)}], "kept": kept})
+    lines = [
+        first(0, ["stale0"]), first(1, ["stale1"]), first(2, ["stale2"]),  # stalled here
+        _row("A2-t9-seed1", 0, {"mode": "naive", "reused": False, "query": "other",
+                                "candidates": cand("o"), "kept": ["o"]}),
+        first(0, ["a"]), first(1, ["b"]),  # the re-run tau2 scored
+    ]
+    path = tmp_path / "trace.jsonl"
+    path.write_text("\n".join(lines) + "\n")
+    episodes = {e.arm: e for e in read_trace(path)}
+    assert episodes["A3"].shown == {"a", "b"}
+    assert [q.query for q in episodes["A3"].queries] == ["q0", "q1"]
+    assert episodes["A2"].shown == {"o"}
