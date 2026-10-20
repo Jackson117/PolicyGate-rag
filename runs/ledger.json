@@ -7,6 +7,36 @@
   "stage1": 1.0,
   "stage2": 25.0
  },
+ "effective_allocations": {
+  "reserve": 3.8,
+  "development": 0.0698,
+  "calibration": 0.3553,
+  "stage1": 0.5592,
+  "stage2": 29.0157
+ },
+ "transfers": [
+  {
+   "source": "development",
+   "target": "stage2",
+   "usd": 2.9302,
+   "reason": "fund A1 (external baseline) on all 30 tasks; decided by the user 2026-10-20, option (b)",
+   "at": "2026-10-20T12:19:47.155467+00:00"
+  },
+  {
+   "source": "calibration",
+   "target": "stage2",
+   "usd": 0.6447,
+   "reason": "fund A1 (external baseline) on all 30 tasks; decided by the user 2026-10-20, option (b)",
+   "at": "2026-10-20T12:19:47.159508+00:00"
+  },
+  {
+   "source": "stage1",
+   "target": "stage2",
+   "usd": 0.4408,
+   "reason": "fund A1 (external baseline) on all 30 tasks; decided by the user 2026-10-20, option (b)",
+   "at": "2026-10-20T12:19:47.162583+00:00"
+  }
+ ],
  "spent": {
   "reserve": 0,
   "development": 0.069724,
