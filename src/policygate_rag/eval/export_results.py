@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import itertools
 import json
+import re
 import statistics
 import subprocess
 from collections import Counter, defaultdict
@@ -131,6 +132,11 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
             if episodes:
                 labels = required_documents({e.task_id for e in episodes})
                 retrieval_rows += episode_scores(episodes, {k: set(v) for k, v in labels.items()})
+        if not retrieval_rows and (entry["config"] or {}).get("env_variant") == "bm25":
+            retrieval_rows = _tool_retrieval_rows(sims)
+            entry["retrieval_source"] = "tau2 KB_search tool results"
+        elif retrieval_rows:
+            entry["retrieval_source"] = "retrieval trace"
         if retrieval_rows:
             entry["retrieval"] = _retrieval_summary(retrieval_rows)
         if entry["status"] == "complete":
@@ -159,6 +165,32 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
 
 
 RETRIEVAL_METRICS = ("coverage", "precision", "mrr")
+TOOL_RESULT_ID = re.compile(r"^\s*ID: (\S+)", re.M)
+
+
+def _tool_retrieval_rows(sims, tool: str = "KB_search") -> list[dict]:
+    """Retrieval through tau2's own search tool (arm A1), scored like the trace-based arms.
+
+    Each call is a query, its result lists document ids in rank order; what an
+    episode was shown is the union of every result.
+    """
+    from policygate_rag.eval.retrieval_metrics import coverage, precision, reciprocal_rank
+
+    labels = required_documents({s.task_id for s in sims})
+    rows = []
+    for sim in sims:
+        call_ids = {c.id for m in sim.messages if m.role == "assistant"
+                    for c in (m.tool_calls or []) if c.name == tool}
+        ranked = [TOOL_RESULT_ID.findall(m.content or "") for m in sim.messages
+                  if m.role == "tool" and m.id in call_ids]
+        shown = {d for r in ranked for d in r}
+        req = set(labels[sim.task_id])
+        rrs = [reciprocal_rank(r, req) for r in ranked]
+        rows.append({"task_id": sim.task_id, "coverage": coverage(shown, req),
+                     "precision": precision(shown, req),
+                     "mrr": sum(rrs) / len(rrs) if rrs else None,
+                     "shown": len(shown), "queries": len(rrs)})
+    return rows
 
 
 def _retrieval_per_task(rows: list[dict]) -> dict[str, dict[str, float]]:
@@ -250,8 +282,10 @@ def export_spend() -> dict:
         external[f"{p.parent.parent.name}/{e['arm']}"] = e["usd"]
     return {
         "ceiling_usd": TOTAL_USD,
-        "lines": {k.value: {"allocated": v, "spent": ledger.spent(k)}
+        "lines": {k.value: {"base_allocation": v, "allocated": ledger.allocation(k),
+                            "spent": ledger.spent(k)}
                   for k, v in ALLOCATIONS.items()},
+        "transfers": [t.model_dump(mode="json") for t in ledger.transfers],
         "total_spent": ledger.total(),
         "reconciliations": [e.model_dump(mode="json") for e in ledger.entries
                             if e.kind.value == "reconciliation"],

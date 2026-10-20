@@ -91,9 +91,266 @@
   },
   "A1": {
    "label": "External baseline: tau2 BM25 tool",
-   "runs": [],
-   "episodes": 0,
-   "status": "not run"
+   "runs": [
+    "runs/stage2_a1/A1"
+   ],
+   "episodes": 90,
+   "status": "complete",
+   "config": {
+    "env_variant": "bm25",
+    "retrieval": "none",
+    "judge": "none",
+    "agent_llm": "openai/gpt-4.1-mini",
+    "harness": {
+     "name": "banking_grounded",
+     "gating_enabled": true,
+     "audit_enabled": true,
+     "loop_guards_enabled": true
+    },
+    "max_steps": 100,
+    "k_final": 5
+   },
+   "tasks": 30,
+   "trials_per_task": 3,
+   "pass_k": {
+    "pass^1": {
+     "estimate": 0.02222222222222222,
+     "low": 0.0,
+     "high": 0.05555555555555555,
+     "n_tasks": 30
+    },
+    "pass^2": {
+     "estimate": 0.0,
+     "low": 0.0,
+     "high": 0.0,
+     "n_tasks": 30
+    },
+    "pass^3": {
+     "estimate": 0.0,
+     "low": 0.0,
+     "high": 0.0,
+     "n_tasks": 30
+    }
+   },
+   "per_task_successes": {
+    "task_017": 0,
+    "task_019": 0,
+    "task_022": 0,
+    "task_023": 1,
+    "task_024": 0,
+    "task_025": 0,
+    "task_028": 0,
+    "task_036": 0,
+    "task_038": 0,
+    "task_040": 0,
+    "task_043": 0,
+    "task_047": 0,
+    "task_051": 0,
+    "task_052": 0,
+    "task_055": 0,
+    "task_056": 0,
+    "task_064": 0,
+    "task_065": 0,
+    "task_071": 0,
+    "task_074": 0,
+    "task_076": 1,
+    "task_078": 0,
+    "task_079": 0,
+    "task_081": 0,
+    "task_082": 0,
+    "task_084": 0,
+    "task_085": 0,
+    "task_088": 0,
+    "task_090": 0,
+    "task_097": 0
+   },
+   "cost": {
+    "usd_total": 4.9159432,
+    "usd_mean": 0.05462159111111111,
+    "usd_max": 0.2820675999999999,
+    "external_usd": 0.0
+   },
+   "terminations": {
+    "user_stop": 85,
+    "max_steps": 5
+   },
+   "infrastructure_errors": 0,
+   "loop_guard_refusals": 15,
+   "retrieval_source": "tau2 KB_search tool results",
+   "retrieval": {
+    "per_task": {
+     "task_017": {
+      "coverage": 0.25,
+      "precision": 0.08627450980392158,
+      "mrr": 0.9166666666666666
+     },
+     "task_019": {
+      "coverage": 0.1111111111111111,
+      "precision": 0.048484848484848485,
+      "mrr": 0.19444444444444445
+     },
+     "task_022": {
+      "coverage": 0.10256410256410257,
+      "precision": 0.1084967320261438,
+      "mrr": 0.8518518518518517
+     },
+     "task_023": {
+      "coverage": 0.4000000000000001,
+      "precision": 0.14754901960784314,
+      "mrr": 0.6666666666666666
+     },
+     "task_024": {
+      "coverage": 0.16666666666666666,
+      "precision": 0.05505952380952381,
+      "mrr": 0.1349206349206349
+     },
+     "task_025": {
+      "coverage": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0
+     },
+     "task_028": {
+      "coverage": 0.12121212121212122,
+      "precision": 0.2,
+      "mrr": 0.6666666666666666
+     },
+     "task_036": {
+      "coverage": 0.0,
+      "precision": 0.0,
+      "mrr": 0.0
+     },
+     "task_038": {
+      "coverage": 0.4166666666666667,
+      "precision": 0.13703703703703704,
+      "mrr": 0.40277777777777773
+     },
+     "task_040": {
+      "coverage": 0.6666666666666666,
+      "precision": 0.22222222222222224,
+      "mrr": 0.375
+     },
+     "task_043": {
+      "coverage": 0.23809523809523805,
+      "precision": 0.07696969696969698,
+      "mrr": 0.09236111111111112
+     },
+     "task_047": {
+      "coverage": 0.27777777777777773,
+      "precision": 0.13549285963079066,
+      "mrr": 0.5922398589065255
+     },
+     "task_051": {
+      "coverage": 0.4761904761904761,
+      "precision": 0.2070175438596491,
+      "mrr": 1.0
+     },
+     "task_052": {
+      "coverage": 0.6666666666666666,
+      "precision": 0.20134827810266406,
+      "mrr": 0.9444444444444445
+     },
+     "task_055": {
+      "coverage": 0.6666666666666666,
+      "precision": 0.12602282515073213,
+      "mrr": 0.45476190476190476
+     },
+     "task_056": {
+      "coverage": 0.2222222222222222,
+      "precision": 0.08296838505171839,
+      "mrr": 0.5416666666666666
+     },
+     "task_064": {
+      "coverage": 0.3958333333333333,
+      "precision": 0.15590590590590592,
+      "mrr": 0.42179894179894184
+     },
+     "task_065": {
+      "coverage": 0.11594202898550725,
+      "precision": 0.14889310562934852,
+      "mrr": 0.19560185185185186
+     },
+     "task_071": {
+      "coverage": 0.2888888888888889,
+      "precision": 0.24425782371518803,
+      "mrr": 0.5212962962962963
+     },
+     "task_074": {
+      "coverage": 0.20512820512820515,
+      "precision": 0.26666666666666666,
+      "mrr": 1.0
+     },
+     "task_076": {
+      "coverage": 0.40277777777777785,
+      "precision": 0.6269537480063796,
+      "mrr": 0.7175925925925926
+     },
+     "task_078": {
+      "coverage": 0.3333333333333333,
+      "precision": 0.20833333333333331,
+      "mrr": 1.0
+     },
+     "task_079": {
+      "coverage": 0.48484848484848486,
+      "precision": 0.23014354066985646,
+      "mrr": 0.8055555555555557
+     },
+     "task_081": {
+      "coverage": 0.38461538461538464,
+      "precision": 0.2282051282051282,
+      "mrr": 0.724537037037037
+     },
+     "task_082": {
+      "coverage": 0.3333333333333333,
+      "precision": 0.20888157894736842,
+      "mrr": 0.9375
+     },
+     "task_084": {
+      "coverage": 0.5,
+      "precision": 0.40277777777777773,
+      "mrr": 0.611111111111111
+     },
+     "task_085": {
+      "coverage": 0.6666666666666666,
+      "precision": 0.2752415458937198,
+      "mrr": 0.6203703703703703
+     },
+     "task_088": {
+      "coverage": 0.3095238095238095,
+      "precision": 0.1813137494900041,
+      "mrr": 0.6746031746031745
+     },
+     "task_090": {
+      "coverage": 0.4444444444444444,
+      "precision": 0.17361111111111108,
+      "mrr": 0.7686507936507936
+     },
+     "task_097": {
+      "coverage": 0.21333333333333335,
+      "precision": 0.23148148148148148,
+      "mrr": 0.6398148148148147
+     }
+    },
+    "coverage": {
+     "estimate": 0.32870584689062954,
+     "low": 0.2617447992526797,
+     "high": 0.3978347227048314,
+     "n_tasks": 30
+    },
+    "precision": {
+     "estimate": 0.18058699928633537,
+     "low": 0.14167677852168342,
+     "high": 0.22677831297253317,
+     "n_tasks": 30
+    },
+    "mrr": {
+     "estimate": 0.5824300411522633,
+     "low": 0.47526679526748966,
+     "high": 0.6881024342298647,
+     "n_tasks": 30
+    },
+    "docs_shown_median": 19.0,
+    "queries_median": 2.0
+   }
   },
   "A2": {
    "label": "Naive RAG",
@@ -182,6 +439,7 @@
    },
    "infrastructure_errors": 0,
    "loop_guard_refusals": 11,
+   "retrieval_source": "retrieval trace",
    "retrieval": {
     "per_task": {
      "task_017": {
@@ -444,6 +702,7 @@
    },
    "infrastructure_errors": 0,
    "loop_guard_refusals": 9,
+   "retrieval_source": "retrieval trace",
    "retrieval": {
     "per_task": {
      "task_017": {
@@ -750,6 +1009,26 @@
     "n_tasks": 30
    }
   },
+  "A4 - A1": {
+   "pass^1": {
+    "estimate": 0.2,
+    "low": 0.06666666666666667,
+    "high": 0.3555555555555555,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.2111111111111111,
+    "low": 0.07777777777777778,
+    "high": 0.36666666666666664,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.2,
+    "low": 0.06666666666666667,
+    "high": 0.36666666666666664,
+    "n_tasks": 30
+   }
+  },
   "A4 - A0": {
    "pass^1": {
     "estimate": 0.2,
@@ -790,6 +1069,26 @@
     "n_tasks": 30
    }
   },
+  "A3 - A1": {
+   "pass^1": {
+    "estimate": 0.0,
+    "low": -0.04444444444444444,
+    "high": 0.04444444444444444,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "n_tasks": 30
+   }
+  },
   "A3 - A0": {
    "pass^1": {
     "estimate": 0.0,
@@ -801,6 +1100,26 @@
     "estimate": -0.01111111111111111,
     "low": -0.03333333333333333,
     "high": 0.0,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "n_tasks": 30
+   }
+  },
+  "A2 - A1": {
+   "pass^1": {
+    "estimate": 0.02222222222222222,
+    "low": -0.02222222222222222,
+    "high": 0.07777777777777777,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": 0.01111111111111111,
+    "low": 0.0,
+    "high": 0.03333333333333333,
     "n_tasks": 30
    },
    "pass^3": {
@@ -829,6 +1148,26 @@
     "high": 0.0,
     "n_tasks": 30
    }
+  },
+  "A1 - A0": {
+   "pass^1": {
+    "estimate": 0.0,
+    "low": -0.03333333333333333,
+    "high": 0.03333333333333333,
+    "n_tasks": 30
+   },
+   "pass^2": {
+    "estimate": -0.01111111111111111,
+    "low": -0.03333333333333333,
+    "high": 0.0,
+    "n_tasks": 30
+   },
+   "pass^3": {
+    "estimate": 0.0,
+    "low": 0.0,
+    "high": 0.0,
+    "n_tasks": 30
+   }
   }
  },
  "retrieval_paired": {
@@ -849,6 +1188,46 @@
     "estimate": 0.07723787507302188,
     "low": 0.036918783039450835,
     "high": 0.11471801338162914,
+    "n_tasks": 30
+   }
+  },
+  "A3 - A1": {
+   "coverage": {
+    "estimate": 0.10315871286523462,
+    "low": 0.0305663433989521,
+    "high": 0.17884784871931608,
+    "n_tasks": 30
+   },
+   "precision": {
+    "estimate": 0.024981881227091527,
+    "low": -0.01319636400193195,
+    "high": 0.06095572737361855,
+    "n_tasks": 30
+   },
+   "mrr": {
+    "estimate": -0.144363168626985,
+    "low": -0.2515033493786061,
+    "high": -0.03742976506208745,
+    "n_tasks": 30
+   }
+  },
+  "A2 - A1": {
+   "coverage": {
+    "estimate": -0.010953699681960553,
+    "low": -0.06526804088624742,
+    "high": 0.04512098499326759,
+    "n_tasks": 30
+   },
+   "precision": {
+    "estimate": -0.0584733198776926,
+    "low": -0.09927196788312166,
+    "high": -0.021566974334088638,
+    "n_tasks": 30
+   },
+   "mrr": {
+    "estimate": -0.22160104370000688,
+    "low": -0.34285349149188954,
+    "high": -0.10348990621810653,
     "n_tasks": 30
    }
   }

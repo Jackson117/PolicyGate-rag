@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-20T11:13:33.661266+00:00",
- "code_commit": "6b2f5082b25a1474bebd303331bc15908f4d8874",
+ "generated_at": "2026-10-20T13:17:35.032996+00:00",
+ "code_commit": "c81826b4131bfb01135732d733c157a4cc511035",
  "files": [
   "spend.json",
   "stage1_judges.json",
@@ -10,7 +10,7 @@
  ],
  "arms": {
   "A0": "complete",
-  "A1": "not run",
+  "A1": "complete",
   "A2": "complete",
   "A3": "complete",
   "A4": "complete"
