@@ -133,6 +133,16 @@ class RagConfig(BaseModel):
     user message so tool calls and their results are never split. ``None``
     keeps the whole history."""
 
+    context_capacity: int | None = Field(default=None, ge=1)
+    """``None``: each user turn's documents replace the last (A2, A3). A number: a
+    working set of that many documents kept across turns, oldest evicted first.
+    Decided 2026-10-20 from the offline replay (docs/replay_a3.md): with 5 replaced
+    per turn, A3's model had 0.144 of the required documents when it acted."""
+
+    product_lookup: bool = False
+    """Add the documents of products named in the conversation to the working set
+    (``retrieval/products.py``). Needs ``context_capacity``."""
+
     # --- judge (agentic retrieval only) --------------------------------------
     judge: JudgeKind = JudgeKind.NONE
 
@@ -170,6 +180,12 @@ class RagConfig(BaseModel):
                 "agent and user simulator use the same model in this study "
                 f"(got agent={self.agent_llm!r}, user={self.user_llm!r})"
             )
+        if self.context_capacity is not None and self.retrieval is RetrievalMode.NONE:
+            raise ValueError("context_capacity needs retrieval")
+        if self.context_capacity is not None and self.context_capacity < self.k_final:
+            raise ValueError("context_capacity cannot be smaller than k_final")
+        if self.product_lookup and self.context_capacity is None:
+            raise ValueError("product_lookup needs context_capacity")
         if self.k_final > self.k_bm25 + self.k_dense:
             raise ValueError("k_final cannot exceed the candidates fusion receives")
         return self

@@ -73,7 +73,14 @@ def read_trace(path: Path) -> list[EpisodeRetrieval]:
     shown: dict[str, set[str]] = defaultdict(set)
     queries: dict[str, list[Query]] = defaultdict(list)
     for row in last_attempt_rows(path):
-        if row["type"] != "updates" or row["ns"] or "retrieve" not in row["data"]:
+        if row["type"] != "updates" or row["ns"]:
+            continue
+        if "remember" in row["data"]:
+            # A working set: what reached the model is the set, not the turn's top k.
+            shown[row["thread_id"]].update(
+                d["doc_id"] for d in (row["data"]["remember"] or {}).get("context") or [])
+            continue
+        if "retrieve" not in row["data"]:
             continue
         r = (row["data"]["retrieve"] or {}).get("retrieval") or {}
         if r.get("mode") in (None, "none"):

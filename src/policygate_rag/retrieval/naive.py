@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Literal
 
 from langgraph.graph import END, START, StateGraph
@@ -31,6 +32,7 @@ from policygate_rag.index.fusion import HybridIndex
 from policygate_rag.judges.base import Judge
 from policygate_rag.judges.none import NoJudge
 from policygate_rag.retrieval.embedder import Embedder
+from policygate_rag.retrieval.products import ProductLookup
 
 
 @dataclass
@@ -42,6 +44,11 @@ class RetrievalResources:
     embedder: Embedder
     judge: Judge = field(default_factory=NoJudge)
     """Agentic only. Naive retrieval never judges."""
+
+    @cached_property
+    def products(self) -> ProductLookup:
+        """Product lookup over this corpus, built on first use."""
+        return ProductLookup(self.docs, self.index.bm25)
 
 
 def user_query(state: TurnState) -> str | None:

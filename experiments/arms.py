@@ -53,6 +53,11 @@ def arms(model: str = "openai/gpt-4.1-mini") -> dict[str, Arm]:
         # 2026-10-20; docs/stage1_judges.md).
         "A3": Arm("A3", "no_knowledge", cfg("A3", retrieval=RetrievalMode.AGENTIC,
                                             judge=JudgeKind.JEV)),
+        # A5: A3 plus a 20-document working set kept across turns and product
+        # lookup (decided 2026-10-20 from the offline replay, docs/replay_a3.md).
+        "A5": Arm("A5", "no_knowledge", cfg("A5", retrieval=RetrievalMode.AGENTIC,
+                                            judge=JudgeKind.JEV, context_capacity=20,
+                                            product_lookup=True)),
         # Development only, never in a comparison: agentic retrieval with no judge,
         # so the loop can be exercised before W3.
         "A3dev": Arm("A3dev", "no_knowledge", cfg("A3dev", retrieval=RetrievalMode.AGENTIC)),

@@ -4,7 +4,7 @@ tau2 owns the outer loop and executes every tool, so this graph runs once per
 ``generate_next_message`` call and returns exactly one AssistantMessage. It
 never executes a tool and never loops across turns::
 
-    START -> retrieve -> reason -> gate --(allowed or text)--> END
+    START -> retrieve [-> remember] -> reason -> gate --(allowed or text)--> END
                            ^        |
                            +--------+ refused, attempts left
                                     |
@@ -31,6 +31,7 @@ from policygate_rag.config import RagConfig, RetrievalMode
 from policygate_rag.graph.state import MESSAGES, TurnContext, TurnState
 from policygate_rag.retrieval.agentic import build_agentic
 from policygate_rag.retrieval.naive import build_naive
+from policygate_rag.retrieval.working_set import build_remember
 
 
 def _dump(message) -> dict:
@@ -52,6 +53,8 @@ def build_graph(config: RagConfig, *, checkpointer=None):
     else:
         retrieve = build_agentic(config)
 
+    header = (KEPT_HEADER if config.context_capacity is not None else LATEST_HEADER)
+
     def reason(state: TurnState, runtime: Runtime[TurnContext]) -> TurnState:
         ctx = runtime.context
         history = MESSAGES.validate_python(state["messages"] + state.get("scratch", []))
@@ -59,7 +62,8 @@ def build_graph(config: RagConfig, *, checkpointer=None):
         response = ctx.generate(
             model=ctx.llm,
             tools=[t for t in ctx.tools if t.name in offered],
-            messages=[SystemMessage(role="system", content=_system(ctx, state))] + history,
+            messages=[SystemMessage(role="system", content=_system(ctx, state, header))]
+            + history,
             call_name="agent_response",
             **ctx.llm_args,
         )
@@ -132,18 +136,29 @@ def build_graph(config: RagConfig, *, checkpointer=None):
 
     graph = StateGraph(TurnState, context_schema=TurnContext)
     graph.add_node("retrieve", retrieve)
+    if config.context_capacity is not None:
+        graph.add_node("remember", build_remember(config))
     graph.add_node("reason", reason)
     graph.add_node("gate", gate)
     graph.add_node("escalate", escalate)
     graph.add_edge(START, "retrieve")
-    graph.add_edge("retrieve", "reason")
+    if config.context_capacity is not None:
+        graph.add_edge("retrieve", "remember")
+        graph.add_edge("remember", "reason")
+    else:
+        graph.add_edge("retrieve", "reason")
     graph.add_edge("reason", "gate")
     graph.add_conditional_edges("gate", after_gate)
     graph.add_edge("escalate", END)
     return graph.compile(checkpointer=checkpointer)
 
 
-def _system(ctx: TurnContext, state: TurnState) -> str:
+LATEST_HEADER = "Knowledge base documents retrieved for the customer's latest message:"
+KEPT_HEADER = ("Knowledge base documents retrieved during this conversation, "
+               "most recent last:")
+
+
+def _system(ctx: TurnContext, state: TurnState, header: str = LATEST_HEADER) -> str:
     context = state.get("context") or []
     if not context:
         return ctx.system_prompt
@@ -153,7 +168,7 @@ def _system(ctx: TurnContext, state: TurnState) -> str:
     )
     return (
         f"{ctx.system_prompt}\n<retrieved_knowledge>\n"
-        "Knowledge base documents retrieved for the customer's latest message:\n\n"
+        f"{header}\n\n"
         f"{docs}\n</retrieved_knowledge>"
     )
 

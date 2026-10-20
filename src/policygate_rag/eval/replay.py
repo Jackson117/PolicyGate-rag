@@ -41,58 +41,16 @@ from policygate_rag.eval.passk import bootstrap_mean
 from policygate_rag.eval.retrieval_metrics import required_documents
 from policygate_rag.index.bm25 import BM25Index
 from policygate_rag.index.corpus import Document, load_corpus
+from policygate_rag.retrieval.products import DOC_ID, mentioned_products, product_names
 from policygate_rag.tracing.read import last_attempt_rows, parse_thread
 
 ROOT = Path(__file__).resolve().parents[3]
 DOCS = ROOT / "third_party/tau2-bench/data/tau2/domains/banking_knowledge/documents"
-DOC_ID = re.compile(r"^doc_(?P<product>.+)_(?P<n>\d{3})$")
-CATEGORIES = (
-    "business_checking_accounts", "business_credit_cards", "business_savings_accounts",
-    "checking_accounts", "savings_accounts", "credit_cards", "bank_accounts",
-    "buy_now_pay_later", "everyone_pay", "personal_subscriptions", "customer_support",
-)
 ACT_DOCS_PER_TOOL = 3
 WRAPPER_TOOLS = frozenset({
     "unlock_discoverable_agent_tool", "call_discoverable_agent_tool", "give_discoverable_user_tool",
 })
 """Generic wrappers: the tool they name is in their arguments; their own name is noise."""
-
-
-# --- the product dictionary, from document ids alone ------------------------
-
-def _normalise(text: str) -> str:
-    return re.sub(r"\s+", " ", re.sub(r"[-_]", " ", text.lower()))
-
-
-def product_names(doc_ids: Iterable[str]) -> dict[str, set[str]]:
-    """Product phrase -> product keys (the id without its number). General
-    sections are not products. A phrase can name several products
-    ("green account" is a checking and a savings account)."""
-    names: dict[str, set[str]] = defaultdict(set)
-    for d in doc_ids:
-        m = DOC_ID.match(d)
-        if m is None or "(general)" in m["product"]:
-            continue
-        product = m["product"]
-        rest = next((product[len(c) + 1:] for c in CATEGORIES if product.startswith(c + "_")),
-                    product)
-        phrase = _normalise(re.sub(r"_\((checking|savings)\)", "", rest)).strip()
-        if phrase:
-            names[phrase].add(product)
-    return dict(names)
-
-
-def mentioned_products(text: str, names: dict[str, set[str]]) -> set[str]:
-    """Longest phrases first, each match masked so "dark green account" does
-    not also count as "green account"."""
-    text = f" {_normalise(text)} "
-    found: set[str] = set()
-    for phrase in sorted(names, key=len, reverse=True):
-        pattern = re.compile(rf"(?<=[^a-z0-9]){re.escape(phrase)}(?=[^a-z0-9])")
-        if pattern.search(text):
-            found |= names[phrase]
-            text = pattern.sub(" # ", text)
-    return found
 
 
 # --- one episode as a sequence of agent steps -------------------------------

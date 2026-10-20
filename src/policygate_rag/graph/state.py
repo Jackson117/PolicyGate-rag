@@ -43,6 +43,13 @@ class TurnState(TypedDict, total=False):
     retrieval: dict
     """What retrieval did this turn, for the trace: queries, candidates, stop reason."""
 
+    memory: list[dict]
+    """The documents in front of the model at the end of the previous turn. Input
+    only; read when a working set is configured (``RagConfig.context_capacity``)."""
+
+    working_set: dict
+    """What the working set did this turn, for the trace: added, evicted, products."""
+
     scratch: list[dict]
     """This turn's internal messages: each proposal, and the refusals fed back."""
 

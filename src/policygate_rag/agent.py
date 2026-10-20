@@ -51,7 +51,8 @@ class RagAgentState:
         self.session = session
         self.turn = 0
         self.context: list[dict] = []
-        """Documents in the prompt, kept across turns until a user turn replaces them."""
+        """Documents in the prompt, kept across turns until a user turn replaces them
+        (or, with a working set, until they are evicted)."""
 
 
 class RagAgent(HalfDuplexAgent[RagAgentState]):
@@ -133,7 +134,8 @@ class RagAgent(HalfDuplexAgent[RagAgentState]):
         )
         turn_input = {
             "messages": [m.model_dump(mode="json") for m in state.messages],
-            "context": state.context, "retrieval": {}, "scratch": [], "attempts": 0,
+            "context": state.context, "memory": state.context, "retrieval": {},
+            "working_set": {}, "scratch": [], "attempts": 0,
             "verdicts": [], "outcome": "", "emitted": {}, "cost_usd": 0.0,
         }
         config = {"configurable": {"thread_id": self.thread_id}}
