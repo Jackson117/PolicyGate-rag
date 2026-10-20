@@ -224,6 +224,10 @@ def run(args, *, generate=None, embedder=None) -> int:
     import litellm
 
     litellm.request_timeout = REQUEST_TIMEOUT_S
+    from policygate_rag.http_pool import make_client
+
+    http_client = make_client(REQUEST_TIMEOUT_S)
+    litellm.client_session = http_client
 
     plan = {
         "run_id": run_id, "started_at": datetime.now(UTC).isoformat(), "line": line.value,
@@ -267,6 +271,9 @@ def run(args, *, generate=None, embedder=None) -> int:
     else:
         out_dir.mkdir(parents=True)
         (out_dir / "plan.json").write_text(json.dumps(plan, indent=2))
+    from policygate_rag.http_pool import start_monitor
+
+    start_monitor(http_client, out_dir / "http_pool.jsonl")
     for arm in arms:
         agent_name = register(arm, out_dir, run_id, generate, embedder)
         chunks = [tasks[i:i + args.chunk_size] for i in range(0, len(tasks), args.chunk_size)]
