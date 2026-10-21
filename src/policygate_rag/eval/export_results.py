@@ -95,7 +95,12 @@ def _external(dirs: list[str]) -> float:
                for d in dirs if (ROOT / d / "external_spend.json").exists())
 
 
-def export_arms(spec: dict[str, Any], expected: int) -> dict:
+def export_arms(spec: dict[str, Any], expected: int,
+                task_ids: set[str] | None = None) -> dict:
+    """Every arm in the manifest. A partial arm carries progress only, unless it has
+    at least one trial of every task in ``task_ids``: then pass^1 (the per-task mean
+    of the trials it has, unbiased) and its retrieval are reported, still marked
+    partial, and pass^k for k > 1 is not."""
     arms, outcomes = {}, {}
     for arm, meta in spec.items():
         if arm.startswith("_") or not isinstance(meta, dict) or "runs" not in meta:
@@ -109,19 +114,23 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
             continue
         entry["status"] = "complete" if len(sims) >= expected else "partial"
         entry["config"] = _arm_config(dirs, arm)
-        if entry["status"] == "partial":
+        covers_all = bool(task_ids) and task_ids <= {s.task_id for s in sims}
+        if entry["status"] == "partial" and covers_all:
+            entry["covers_all_tasks"] = True
+        if entry["status"] == "partial" and not covers_all:
             # Progress only: a pass rate over a handful of episodes would read as a result.
             entry["tasks_started"] = len({s.task_id for s in sims})
             arms[arm] = entry
             continue
         o = _outcomes(sims)
-        trials = min(map(len, o.values()))
+        trials = min(map(len, o.values())) if entry["status"] == "complete" else 1
         cost = [(s.agent_cost or 0.0) + (s.user_cost or 0.0) for s in sims]
         entry |= {
             "tasks": len(o),
             "trials_per_task": trials,
             "pass_k": {f"pass^{k}": arm_pass_k(o, k).model_dump() for k in range(1, trials + 1)},
             "per_task_successes": {t: sum(v) for t, v in sorted(o.items())},
+            "per_task_trials": {t: len(v) for t, v in sorted(o.items())},
             "cost": {"usd_total": sum(cost), "usd_mean": statistics.fmean(cost),
                      "usd_max": max(cost), "external_usd": _external(dirs)},
             "terminations": dict(Counter(s.termination_reason.value for s in sims)),
@@ -146,8 +155,7 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
             entry["retrieval_source"] = "retrieval trace"
         if retrieval_rows:
             entry["retrieval"] = _retrieval_summary(retrieval_rows)
-        if entry["status"] == "complete":
-            outcomes[arm] = o
+        outcomes[arm] = o
         arms[arm] = entry
     from policygate_rag.eval.passk import bootstrap_mean
 
@@ -164,7 +172,7 @@ def export_arms(spec: dict[str, Any], expected: int) -> dict:
     paired = {}
     present = [a for a in ARM_ORDER if a in outcomes]
     for a, b in itertools.combinations(present, 2):
-        trials = min(min(map(len, outcomes[a].values())), min(map(len, outcomes[b].values())))
+        trials = min(arms[a]["trials_per_task"], arms[b]["trials_per_task"])
         paired[f"{a} - {b}"] = {f"pass^{k}": paired_difference(outcomes[a], outcomes[b], k
                                                                ).model_dump()
                                 for k in range(1, trials + 1)}
@@ -307,7 +315,9 @@ def main() -> None:
     OUT.mkdir(exist_ok=True)
     commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
                             capture_output=True, text=True).stdout.strip()
-    stage2 = export_arms(manifest["stage2"], manifest["expected_episodes_per_arm"])
+    subset = json.loads((ROOT / "experiments" / "subset.json").read_text())
+    stage2 = export_arms(manifest["stage2"], manifest["expected_episodes_per_arm"],
+                         set(subset["task_ids"]))
     files = {
         "stage1_judges.json": export_stage1(manifest["stage1"]),
         "stage2_arms.json": stage2,
@@ -321,7 +331,7 @@ def main() -> None:
         "schema_version": SCHEMA_VERSION,
         "generated_at": datetime.now(UTC).isoformat(),
         "code_commit": commit,
-        "files": sorted(files),
+        "files": sorted(files) + ["replay_a3.json"],
         "arms": {a: e["status"] for a, e in stage2["arms"].items()},
         "intervals": ("95% percentile bootstrap over tasks, 10,000 resamples; "
                       "differences paired by task"),

@@ -1,0 +1,19 @@
+# Keep the context small: runs/ alone is several GB of traces and checkpoints,
+# and the tau2 checkout carries every domain. The image needs banking only.
+.git
+.venv
+.venv-*
+.pytest_cache
+.ruff_cache
+**/__pycache__
+.env
+.env.*
+*.log
+runs/**
+!runs/ledger.json
+data
+
+third_party/tau2-bench/.git
+third_party/tau2-bench/data/**
+!third_party/tau2-bench/data/tau2/domains/banking_knowledge/**
+!third_party/tau2-bench/data/tau2/user_simulator/**

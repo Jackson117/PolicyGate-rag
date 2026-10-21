@@ -59,6 +59,29 @@ no_knowledge   tau2 bm25   naive RAG   agentic RAG   golden
   complete set buys about a fifth of the tasks. Whether intermediate coverage (say 0.7)
   helps is not answered by these arms.
 
+## A5: the working set (added 2026-10-21, partial)
+
+A diagnosis of A3 (`docs/replay_a3.md`) found that the model rarely had the required
+documents when it acted: 0.144 of them at each proposed tool call, against 0.427 over the
+episode, because 5 documents were replaced every user turn. A5 = A3 + a 20-document
+working set kept across turns + lookup of products named in the conversation.
+
+| | A3 | A5 | A5 − A3 (paired) |
+|---|---|---|---|
+| pass^1 | 0.022 [0.000, 0.056] | 0.056 [0.000, 0.133] | +0.033 [−0.011, +0.100] |
+| Coverage at each proposed tool call | 0.144 [0.105, 0.183] | 0.395 [0.333, 0.458] | +0.260 [+0.210, +0.309] |
+| Coverage over the episode | 0.427 [0.361, 0.495] | 0.535 [0.456, 0.614] | +0.108 [+0.042, +0.177] |
+| USD / episode | 0.045 | 0.068 | |
+
+The budget guard stopped A5 at 72 of 90 episodes (stage 2: projected 29.08 > 29.02):
+every task has trial 1, 21 have all three, and the run was left partial by decision. pass^1
+is the per-task mean of the trials run (unbiased); pass^3 is not reported. Trials 2–3 ran
+as a second batch, seed 301, so their seeds differ from the other arms'.
+
+The working set does what the replay predicted (0.393 predicted, 0.395 measured), and
+task success does not detectably follow. With A4 at 0.222, the retrieval fix has at most
+about 0.17 left to recover, below what 30 tasks can resolve.
+
 ## Limits
 
 - n = 30 tasks; differences between the retrieval arms are within about +-0.05 and cannot
@@ -74,6 +97,6 @@ no_knowledge   tau2 bm25   naive RAG   agentic RAG   golden
 
 ## Spend
 
-OpenAI (via AIHubMix): USD 23.88 of 33.80; stage 2 22.90 of 29.02 after transfers from
-unused lines (recorded in the ledger). Jev (own account): USD 1.18. Reserve untouched.
-Not yet reconciled against the provider dashboard since 6.29.
+OpenAI (via AIHubMix), with A5: USD 28.88 of 33.80; stage 2 27.89 of 29.02 after
+transfers from unused lines (recorded in the ledger). Jev (own account): USD 1.74.
+Reserve untouched. Not yet reconciled against the provider dashboard since 6.29.

@@ -1,12 +1,13 @@
 {
  "schema_version": 1,
- "generated_at": "2026-10-20T16:28:36.067407+00:00",
- "code_commit": "59ad6968829c989760e9c4af8e7a0d34fb820a59",
+ "generated_at": "2026-10-21T04:05:31.638119+00:00",
+ "code_commit": "5e098a6ae3eb7b1aa44fa7445960dbeb2e9d7651",
  "files": [
   "spend.json",
   "stage1_judges.json",
   "stage2_arms.json",
-  "w1.json"
+  "w1.json",
+  "replay_a3.json"
  ],
  "arms": {
   "A0": "complete",

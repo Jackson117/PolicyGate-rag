@@ -314,29 +314,33 @@ def run(args, *, generate=None, embedder=None) -> int:
                 )
                 booked_agent += sim.agent_cost
 
-        guarded_batches(
-            ledger, line, chunks=[len(chunks[i]) * args.trials for i in todo], model=args.model,
-            arm=arm.id, prior_per_episode=args.prior, run_chunk=run_chunk,
-        )
-        traced = traced_agent_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
-        # Across restarts: agent cost of every kept episode in this arm's directory,
-        # and gaps booked by earlier invocations of the same run.
-        booked_agent = saved_agent_cost(out_dir / arm.id)
-        booked_gaps = sum(e.usd for e in ledger.entries
-                          if e.arm == arm.id and e.batch == run_id and e.kind is EntryKind.CALL)
-        gap = round(traced - booked_agent - booked_gaps, 6)
-        if gap > 0:
-            ledger.record(Entry(
-                line=line, kind=EntryKind.CALL, usd=gap, model=args.model, arm=arm.id,
-                batch=run_id, label=f"{arm.id}: agent spend on attempts tau2 discarded",
-            ))
-        external = traced_external_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
-        (out_dir / arm.id / "external_spend.json").write_text(json.dumps(
-            {"arm": arm.id, "judge": arm.config.judge.value, "usd": external,
-             "note": "billed to the judge provider's own account; not in runs/ledger.json"},
-            indent=1))
-        print(f"{arm.id}: booked; agent trace {traced:.4f} vs results {booked_agent:.4f}; "
-              f"external (judge account) {external:.4f}")
+        # A refusal by the guard mid-batch still books what already ran: the spend
+        # on attempts tau2 discarded, and the judge's external spend.
+        try:
+            guarded_batches(
+                ledger, line, chunks=[len(chunks[i]) * args.trials for i in todo], model=args.model,
+                arm=arm.id, prior_per_episode=args.prior, run_chunk=run_chunk,
+            )
+        finally:
+            traced = traced_agent_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
+            # Across restarts: agent cost of every kept episode in this arm's directory,
+            # and gaps booked by earlier invocations of the same run.
+            booked_agent = saved_agent_cost(out_dir / arm.id)
+            booked_gaps = sum(e.usd for e in ledger.entries
+                              if e.arm == arm.id and e.batch == run_id and e.kind is EntryKind.CALL)
+            gap = round(traced - booked_agent - booked_gaps, 6)
+            if gap > 0:
+                ledger.record(Entry(
+                    line=line, kind=EntryKind.CALL, usd=gap, model=args.model, arm=arm.id,
+                    batch=run_id, label=f"{arm.id}: agent spend on attempts tau2 discarded",
+                ))
+            external = traced_external_cost(out_dir / arm.id / "trace.jsonl", f"{arm.id}-")
+            (out_dir / arm.id / "external_spend.json").write_text(json.dumps(
+                {"arm": arm.id, "judge": arm.config.judge.value, "usd": external,
+                 "note": "billed to the judge provider's own account; not in runs/ledger.json"},
+                indent=1))
+            print(f"{arm.id}: booked; agent trace {traced:.4f} vs results {booked_agent:.4f}; "
+                  f"external (judge account) {external:.4f}")
     print(f"line {line.value}: spent {ledger.spent(line):.4f}; total {ledger.total():.4f}. "
           "Reconcile against the provider dashboard now.")
     return 0

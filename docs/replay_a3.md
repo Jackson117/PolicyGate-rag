@@ -116,8 +116,10 @@ One change at a time (paired, mean coverage at action):
 - Product names are matched from document ids, longest first; ambiguous names ("green
   account" is a checking and a savings account) add both products.
 
-## Proposed next arm (not run)
+## The next arm (run 2026-10-21)
 
-A5 = A3 + a 20-document working set + product lookup. Expected cost per episode is about
-A3's plus the extra context tokens; the run needs the stage-2 budget (USD 6.12 left) and
-your approval. With 30 tasks only pass^1 differences of roughly 0.15 or more are detectable.
+A5 = A3 + a 20-document working set + product lookup (`retrieval/working_set.py`,
+`retrieval/products.py`). Live, its coverage at action time was 0.395 [0.333, 0.458],
+against the replay's 0.393 for the same policy; pass^1 0.056 [0.000, 0.133], A5 − A3
++0.033 [−0.011, +0.100]. The budget guard stopped it at 72 of 90 episodes; see
+`docs/stage2_results.md`.

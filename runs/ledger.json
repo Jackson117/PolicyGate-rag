@@ -42,7 +42,7 @@
   "development": 0.069724,
   "calibration": 0.355222,
   "stage1": 0.559127,
-  "stage2": 27.865927
+  "stage2": 27.894943
  },
  "entries": [
   {
@@ -8734,6 +8734,16 @@
    "arm": "A5",
    "batch": "a53ec64e69",
    "at": "2026-10-20T16:27:46.466516+00:00"
+  },
+  {
+   "line": "stage2",
+   "kind": "call",
+   "usd": 0.029016,
+   "label": "A5: agent spend on attempts tau2 discarded",
+   "model": "openai/gpt-4.1-mini",
+   "arm": "A5",
+   "batch": "a53ec64e69",
+   "at": "2026-10-21T04:05:12.137768+00:00"
   }
  ]
 }

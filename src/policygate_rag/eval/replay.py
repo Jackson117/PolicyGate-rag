@@ -316,6 +316,12 @@ def main() -> None:
     look = Lookups(load_corpus(DOCS))
     report = evaluate(load_episodes(run), POLICIES, look)
     (run.parent / "replay.json").write_text(json.dumps(report, indent=2))
+    # The committed copy, read by the figures and the dashboard.
+    (ROOT / "results" / "replay_a3.json").write_text(json.dumps(
+        {"schema_version": 1, "source": str(run.resolve().relative_to(ROOT)),
+         "metric": "mean share of required documents in context at steps proposing a tool "
+                   "call; counterfactual on A3's recorded conversations"} | report,
+        indent=1) + "\n")
     fmt = lambda i: f"{i['estimate']:.3f} [{i['low']:.3f}, {i['high']:.3f}]"  # noqa: E731
     print(f"{'policy':28s} {'mean cov @action':24s} {'max cov @action':24s} docs  tokens")
     for name, r in report["policies"].items():
