@@ -7,6 +7,9 @@ Document embeddings are computed once and cached under ``index_cache/``
 (git-ignored), keyed by the model and the corpus hash; a later run loads the
 cache and spends nothing. The build is checked against the stage-1 budget line
 before any call, and its actual cost is booked to the ledger.
+
+HybridIndex is a combination of a BM25Index and a DenseIndex. The BM25Index is inversed document
+frequency and score for each word, while the DenseIndex is a dense vector embedding of the document.
 """
 
 from __future__ import annotations

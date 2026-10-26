@@ -3,7 +3,7 @@
 How much of an agent's task failure on τ²-bench's `banking_knowledge` domain is a
 retrieval problem, and how much of it does agentic retrieval recover, at what cost?
 
-One model, one user simulator, one harness ([policygate](../PolicyGate), on in every
+One model, one user simulator, one harness ([policygate](https://github.com/Jackson117/PolicyGate), on in every
 arm); only retrieval varies. Retrieval is hand-written (BM25, dense, reciprocal rank
 fusion), the per-turn agent is a LangGraph graph, and every number below carries a 95%
 bootstrap interval over tasks.
@@ -135,6 +135,31 @@ Model spend: USD 28.88 of a 33.80 ceiling (27.89 on stage 2, after transfers fro
 lines), recorded per episode in `runs/ledger.json`; the 3.80 reserve was not touched. Jev
 was billed to its own account: USD 1.74 in all. The ledger was last reconciled against
 the provider's dashboard at USD 6.29.
+
+## In the dashboard
+
+[policygate](https://github.com/Jackson117/PolicyGate)'s Streamlit dashboard reads this repo's committed
+`results/` directly, so the study's numbers are inspectable next to the harness
+results they were produced with — and the retrieval step itself can be run
+against a question you type.
+
+![The Banking RAG page: what perfect documents are worth, the ceiling, the share
+that fails anyway, and pass^1 by arm with 95%
+intervals](docs/screenshots/dashboard-banking-rag.png)
+
+*The same decomposition as above, read from `results/` at the commit named in
+the sidebar. A5 is drawn hollow because it is partial — 72 of 90 episodes — so
+pass^k for k > 1 is withheld rather than estimated from the trials that ran.*
+
+![The Retrieval page: one question over the 698-document corpus, the documents
+kept for the prompt with their BM25 and dense ranks, and what the query's
+embedding cost](docs/screenshots/dashboard-retrieval.png)
+
+*Retrieval for one question, the way arm A2 runs it. Each kept document shows
+where each index ranked it, so disagreement between BM25 and the dense index is
+visible rather than hidden inside the fused score: here 30 candidates fused, 10
+of them found by both. The corpus embeddings are the study's cache; only the
+query is embedded, and the page reports what that cost rather than assuming it.*
 
 ## Limits
 
