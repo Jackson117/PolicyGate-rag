@@ -25,3 +25,7 @@ index_cache/
 
 # policygate archive for the Docker build (scripts/docker_build.sh)
 vendor/
+
+# Project brief for Claude Code: local working notes, not part of the published
+# project. Kept out of git deliberately.
+CLAUDE.md
