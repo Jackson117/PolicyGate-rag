@@ -1,4 +1,4 @@
-# policygate-rag
+# PolicyGate-rag
 
 How much of an agent's task failure on τ²-bench's `banking_knowledge` domain is a
 retrieval problem, and how much of it does agentic retrieval recover, at what cost?
