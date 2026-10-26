@@ -1354,7 +1354,7 @@ wheels = [
 [[package]]
 name = "policygate"
 version = "0.3.0"
-source = { git = "file:///Users/a1234809/Code/PolicyGate?tag=v0.3.0#48b39263485d884c40151ce3b6e3a91c01332f08" }
+source = { git = "https://github.com/Jackson117/PolicyGate.git?tag=v0.3.0#d0e28b1523dc9bea444494adedcc14ed733b3928" }
 dependencies = [
     { name = "deepdiff" },
     { name = "pydantic" },
@@ -1384,7 +1384,7 @@ requires-dist = [
     { name = "langgraph", specifier = ">=0.2" },
     { name = "langgraph-checkpoint-sqlite", specifier = ">=2.0" },
     { name = "numpy", specifier = ">=1.26" },
-    { name = "policygate", git = "file:///Users/a1234809/Code/PolicyGate?tag=v0.3.0" },
+    { name = "policygate", git = "https://github.com/Jackson117/PolicyGate.git?tag=v0.3.0" },
     { name = "tau2", extras = ["knowledge", "experiments"], editable = "third_party/tau2-bench" },
 ]
 
