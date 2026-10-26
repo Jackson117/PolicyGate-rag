@@ -70,7 +70,8 @@ class RagConfig(BaseModel):
     # --- models: one configuration per comparison (hard constraint 6) --------
     agent_llm: str = "openai/gpt-4.1-mini"
     """The model that reasons and proposes tool calls. Decided at the end of W1
-    calibration by the rule in CLAUDE.md; mini is the starting point."""
+    calibration by a rule fixed before it ran (docs/w1_calibration.md);
+    mini is the starting point."""
 
     user_llm: str = "openai/gpt-4.1-mini"
     """tau2's user simulator. Always the same model as ``agent_llm`` in this study."""

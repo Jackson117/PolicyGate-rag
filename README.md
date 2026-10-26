@@ -215,4 +215,5 @@ src/policygate_rag/
 experiments/       arms, the 30-task subset, which runs hold which results
 results/           every reported number, as JSON
 docs/              one note per experiment, with the decisions made along the way
+                   plus constraints.md: the nine rules fixed before the first episode
 ```

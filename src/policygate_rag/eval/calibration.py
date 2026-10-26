@@ -2,7 +2,7 @@
 
     python -m policygate_rag.eval.calibration runs/calibration_w1
 
-The rule (CLAUDE.md, "Model decision rule"): stage 2 allows at most USD 0.055
+The rule, fixed before any calibration episode ran: stage 2 allows at most USD 0.055
 per episode, averaged over arms (25 / 450). If the measured mini cost fits, mini
 is used for agent and simulator; otherwise nano for both; if nano does not fit
 either, the subset shrinks to 20 tasks, never below 3 trials.
